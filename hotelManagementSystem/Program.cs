@@ -16,9 +16,10 @@ namespace hotelManagementSystem
             int roomTypeChoice;
             string roomTypeName = "";
             double nightlyRate = 0.0;
-            Date checkInDate;
-            Date checkOutDate;
-            int nightsNum;
+            DateTime checkInDate;
+            DateTime checkInDateToday;
+            DateTime checkOutDate;
+            int nights;
             string roomNotes;
             double discountPercentage;
             int loyaltyPoints;
@@ -128,16 +129,33 @@ namespace hotelManagementSystem
 
                     //View Guest Information
                     case 1:
-                        if (registeredGuest) {
-                            Console.WriteLine("The guest name: "+ guestName.ToUpper());
+                        if (registeredGuest)
+                        {
+                            Console.WriteLine("The guest name: " + guestName.ToUpper());
                             Console.WriteLine("The guest phone number: " + guestPhone);
-                            Console.WriteLine("The room type: "+ roomTypeName.ToUpper());
+                            Console.WriteLine("The room type: " + roomTypeName.ToUpper());
                             Console.WriteLine("The nightly rate: " + nightlyRate.ToString() + " OMR");
+                            //double space
+                            Console.WriteLine("\n");
                         }
-                        else Console.WriteLine("No info to print");
+                        else
+                        {
+                            Console.WriteLine("No info to print");
+                            Console.WriteLine("\n");
+                        }
                         break;
 
                     case 2:
+                        // check in date from sys
+                        checkInDate = DateTime.Now;
+                        checkInDateToday = DateTime.Today;
+                        Console.Write("Enter number of nights: ");
+                        nights = int.Parse(Console.ReadLine());
+                        //count check out date based on the nights#
+                         checkOutDate = checkInDate.AddDays(nights);
+                        //Console.WriteLine("Today Date : " + checkInDateToday);
+                        Console.WriteLine("Check-in Date : " + checkInDate.ToString("yyyy-MM-dd HH:mm"));
+                        Console.WriteLine("Check-out Date: " + checkOutDate.ToString("yyyy-MM-dd HH:mm"));
                         break;
 
                     case 3:
@@ -168,9 +186,14 @@ namespace hotelManagementSystem
                         break;
                 }//switch (userChoice)
 
-                // to can the result before clear it
-                Thread.Sleep(2000);
-                Console.Clear();
+                // to not clear the printed info
+                if (userChoice != 1 && userChoice != 2)
+                {
+                    // to can see the result before it clears it
+                    Thread.Sleep(2000);
+                    Console.Clear();
+                }
+                
                 // show services menue after each case to activate services like print info
                 Console.WriteLine("The services menue: ");
                 Console.WriteLine("0. Register New Guest");
