@@ -13,7 +13,7 @@ namespace hotelManagementSystem
             string guestName = "";
             string guestPhone = "";
             int roomNumber;
-            int roomTypeChoice;
+            int roomTypeChoice = 0;
             string roomTypeName = "";
             double nightlyRate = 0.0;
             DateTime checkInDate;
@@ -29,6 +29,9 @@ namespace hotelManagementSystem
             bool currentlyCheckedIn = false;
             bool registeredGuest = false;
             int userChoice;
+            int updatedRoomTypeChoice;
+            
+            double updatedNightlyRate = 0.0;
 
             // show services menue
             Console.WriteLine("The services menue: ");
@@ -148,6 +151,7 @@ namespace hotelManagementSystem
                             Console.WriteLine("The room type: " + roomTypeName.ToUpper());
                             Console.WriteLine("The number of nights: " + nights +" night(s)");
                             Console.WriteLine("The nightly rate: " + nightlyRate.ToString() + " OMR");
+                            Console.WriteLine("The total of nightly rate: " + nightlyRate * nights + " OMR");
                             //double space
                             Console.WriteLine("\n");
                         }
@@ -218,7 +222,76 @@ namespace hotelManagementSystem
                         Console.WriteLine();
                         break;
 
+                    //Upgrade Room
                     case 5:
+                        if (registeredGuest)
+                        {
+                            Console.WriteLine("menue of room types: \n 1. Standard Room \n 2. Deluxe Room \n 3. Suite \n 4. Family Room \n 5. Connecting Rooms");
+                            Console.Write("Please enter the number of your room type: ");
+                            updatedRoomTypeChoice = int.Parse(Console.ReadLine());
+                            while (updatedRoomTypeChoice != 1 && updatedRoomTypeChoice != 2 && updatedRoomTypeChoice != 3 && updatedRoomTypeChoice != 4 && updatedRoomTypeChoice != 5)
+                            {
+                                Console.WriteLine("Invalid room type number");
+                                Console.Write("Please enter the number of your room type: ");
+                                updatedRoomTypeChoice = int.Parse(Console.ReadLine());
+                            }
+                            while (updatedRoomTypeChoice == roomTypeChoice) {
+                                Console.WriteLine("your new room type same as the previous.");
+                                Console.Write("Please enter the number of your room type: ");
+                                updatedRoomTypeChoice = int.Parse(Console.ReadLine());
+                            }
+
+                            //Standard
+                            if (updatedRoomTypeChoice == 1)
+                            {
+                                roomTypeName = "Standard Room";
+                                updatedNightlyRate = 30.0;
+
+                                Console.WriteLine("The nightly rate: " + nightlyRate + " OMR");
+                            }
+                            //Deluxe
+                            else if (updatedRoomTypeChoice == 2)
+                            {
+                                roomTypeName = "Deluxe Room";
+                                updatedNightlyRate = 50.0;
+                                Console.WriteLine("The nightly rate: " + nightlyRate + " OMR");
+
+                            }
+                            //Suite
+                            else if (updatedRoomTypeChoice == 3)
+                            {
+                                roomTypeName = "Suite";
+                                updatedNightlyRate = 80.0;
+                                Console.WriteLine("The nightly rate: " + nightlyRate + " OMR");
+                            }
+                            //Family
+                            else if (updatedRoomTypeChoice == 4)
+                            {
+                                roomTypeName = "Family room";
+                                updatedNightlyRate = 70.0;
+                                Console.WriteLine("The nightly rate: " + nightlyRate + " OMR");
+                            }
+                            //Connecting
+                            else if (updatedRoomTypeChoice == 5)
+                            {
+                                roomTypeName = "Connecting rooms";
+                                updatedNightlyRate = 90.0;
+                                Console.WriteLine("The nightly rate: " + nightlyRate + " OMR");
+                            }
+
+                            roomNumber = rand.Next(100, 999); // generates number between 100–998
+                            
+
+                            Console.WriteLine("Your new room type: " + roomTypeName);
+                            Console.WriteLine("Your new room number: " + roomNumber);
+                            Console.WriteLine("the nightly rate before: "+ nightlyRate + " OMR");
+                            Console.WriteLine("the updated nightly rate:  " + updatedNightlyRate + " OMR");
+                            double maxPrice = Math.Max(nightlyRate, updatedNightlyRate);
+                            Console.WriteLine("the maximum price: "+ maxPrice+" OMR");
+                            double minPrice = Math.Min(nightlyRate, updatedNightlyRate);
+                            Console.WriteLine("the minimum price: " + minPrice + " OMR");
+                        }
+                        else Console.WriteLine("You need to be registered");
                         break;
 
                     case 6:
@@ -241,10 +314,10 @@ namespace hotelManagementSystem
                 }//switch (userChoice)
 
                 // to not clear the printed info
-                if (userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4)
+                if (userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4 )
                 {
                     // to can see the result before it clears it
-                    Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                     Console.Clear();
                 }
                 
