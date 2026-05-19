@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Threading.Tasks.Dataflow;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -9,7 +10,7 @@ namespace hotelManagementSystem
         static void Main(string[] args)
         {
             Random rand = new Random();
-
+            string serviceNote = "";
             string guestName = "";
             string guestPhone = "";
             int roomNumber;
@@ -30,8 +31,8 @@ namespace hotelManagementSystem
             bool registeredGuest = false;
             int userChoice;
             int updatedRoomTypeChoice;
-            
             double updatedNightlyRate = 0.0;
+            string searchName = "";
 
             // show services menue
             Console.WriteLine("The services menue: ");
@@ -295,9 +296,36 @@ namespace hotelManagementSystem
                         break;
 
                     case 6:
+                        Console.WriteLine("your service note: ");
+                        serviceNote = Console.ReadLine();
+                        while (serviceNote == "") {
+                            Console.WriteLine("You cannot leave the note empty");
+                            Console.WriteLine("your service note: ");
+                            serviceNote = Console.ReadLine();
+                        }
+                        serviceNote = serviceNote.Trim();
+                        Console.WriteLine("The length of the note: " + serviceNote.Length);
+
+                        string newNote = serviceNote.Replace("Hotel", "hotelName");
+                        Console.WriteLine("before replacing: \n " + serviceNote);
+                        Console.WriteLine("after replacing: \n " + newNote);
                         break;
 
                     case 7:
+                        if (registeredGuest)
+                        {
+                            Console.Write("enter the guest name you want to find: ");
+                            searchName = Console.ReadLine();
+                            searchName = searchName.ToLower();
+                            guestName = guestName.ToLower();
+                            bool foundName = guestName.Contains(searchName);
+                            if (foundName)
+                            {
+                                Console.WriteLine("The guest name contains the name you entered");
+                            }
+                            else Console.WriteLine("The guest name doesn't contain the name you entered");
+                        }
+                        else Console.WriteLine("You need to register first");
                         break;
 
                     case 8:
@@ -310,6 +338,7 @@ namespace hotelManagementSystem
                         break;
 
                     default:
+                        Console.WriteLine("Invalid service choice...");
                         break;
                 }//switch (userChoice)
 
