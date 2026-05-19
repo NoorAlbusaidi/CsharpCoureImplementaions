@@ -368,7 +368,43 @@ namespace hotelManagementSystem
                         break;
 
                     case 10:
+                        if (registeredGuest)
+                        {
+                            Console.Write("Enter your name: ");
+                            guestName = Console.ReadLine();
+                            // Remove extra spaces
+                            guestName = guestName.Trim();
 
+                            // Validate minimum length (e.g., at least 3 characters)
+                            while(guestName.Length < 3)
+                            {
+                                Console.WriteLine("Name must be at least 3 characters long.");
+                                Console.Write("Enter your name: ");
+                                guestName = Console.ReadLine();
+                                // Remove extra spaces
+                                guestName = guestName.Trim();
+
+                            }
+
+                            // Preview
+                            Console.WriteLine("\nPreview:");
+                            Console.WriteLine("Uppercase: " + guestName.ToUpper());
+                            Console.WriteLine("Lowercase: " + guestName.ToLower());
+
+                            // Confirm
+                            Console.Write("\nConfirm name? (yes/no): ");
+                            string confirm = Console.ReadLine();
+
+                            if (confirm.ToLower() == "yes")
+                            {
+                                Console.WriteLine("Name updated to: " + guestName);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Update cancelled.");
+                            }
+                        }
+                        else Console.WriteLine("You need to register first");
                         break;
 
                     default:
@@ -404,6 +440,7 @@ namespace hotelManagementSystem
                 userChoice = int.Parse(Console.ReadLine());
 
             }//while userChoice != 0
+            Console.WriteLine("Thank you! Session ended at: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
         }
     }
