@@ -19,10 +19,13 @@ namespace hotelManagementSystem
             DateTime checkInDate;
             DateTime checkInDateToday;
             DateTime checkOutDate;
-            int nights;
+            int nights = 0;
+            double totalPrice = 0;
             string roomNotes;
-            double discountPercentage;
-            int loyaltyPoints;
+            //discoun = 20%
+            double discountPercentage = 0.2;
+            double discountAmount = 0;
+            int loyalityPoints;
             bool currentlyCheckedIn = false;
             bool registeredGuest = false;
             int userChoice;
@@ -73,6 +76,14 @@ namespace hotelManagementSystem
                             guestPhone = Console.ReadLine();
                         }
 
+                        Console.Write("Enter number of nights: ");
+                        nights = int.Parse(Console.ReadLine());
+                        //validate nights number
+                        while (nights<=0) {
+                            Console.WriteLine("Invalid nights number");
+                            Console.Write("Enter number of nights: ");
+                            nights = int.Parse(Console.ReadLine());
+                        }
                         Console.WriteLine("menue of room types: \n 1. Standard Room \n 2. Deluxe Room \n 3. Suite \n 4. Family Room \n 5. Connecting Rooms");
                         Console.Write("Please enter the number of your room type: ");
                         roomTypeChoice = int.Parse(Console.ReadLine());
@@ -124,6 +135,7 @@ namespace hotelManagementSystem
 
                         Console.WriteLine("your reservation is done");
                         registeredGuest = true;
+                        
 
                         break;
 
@@ -134,6 +146,7 @@ namespace hotelManagementSystem
                             Console.WriteLine("The guest name: " + guestName.ToUpper());
                             Console.WriteLine("The guest phone number: " + guestPhone);
                             Console.WriteLine("The room type: " + roomTypeName.ToUpper());
+                            Console.WriteLine("The number of nights: " + nights +" night(s)");
                             Console.WriteLine("The nightly rate: " + nightlyRate.ToString() + " OMR");
                             //double space
                             Console.WriteLine("\n");
@@ -146,19 +159,42 @@ namespace hotelManagementSystem
                         break;
 
                     case 2:
+                        
                         // check in date from sys
                         checkInDate = DateTime.Now;
+                        currentlyCheckedIn = true;
                         checkInDateToday = DateTime.Today;
-                        Console.Write("Enter number of nights: ");
-                        nights = int.Parse(Console.ReadLine());
+
                         //count check out date based on the nights#
                          checkOutDate = checkInDate.AddDays(nights);
-                        //Console.WriteLine("Today Date : " + checkInDateToday);
+                        Console.WriteLine("Today Date : " + checkInDateToday+" :");
+                        Console.WriteLine();
                         Console.WriteLine("Check-in Date : " + checkInDate.ToString("yyyy-MM-dd HH:mm"));
                         Console.WriteLine("Check-out Date: " + checkOutDate.ToString("yyyy-MM-dd HH:mm"));
+                        Console.WriteLine();
                         break;
 
                     case 3:
+                        
+                        // only calculate price if there are guests
+                        if (registeredGuest)
+                        {
+                            totalPrice = nights * nightlyRate;
+                            if (discountPercentage != 0)
+                            {
+                                Console.WriteLine("Discount percentage: "+ discountPercentage*100 + "% ");
+                                discountAmount = totalPrice * discountPercentage;
+                                totalPrice = totalPrice - discountAmount;
+                            }
+
+                            else totalPrice = Math.Round(totalPrice, 3);
+
+                            Console.WriteLine("The Bill: ");
+                            Console.WriteLine("Total price: " + totalPrice);
+                            //reset room number
+                            roomNumber = 0;
+                        }
+                        else Console.WriteLine("No registered guest");
                         break;
 
                     case 4:
@@ -187,7 +223,7 @@ namespace hotelManagementSystem
                 }//switch (userChoice)
 
                 // to not clear the printed info
-                if (userChoice != 1 && userChoice != 2)
+                if (userChoice != 1 && userChoice != 2 && userChoice != 3)
                 {
                     // to can see the result before it clears it
                     Thread.Sleep(2000);
