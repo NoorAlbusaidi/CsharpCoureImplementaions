@@ -182,6 +182,7 @@ namespace hotelManagementSystem
                             totalPrice = nights * nightlyRate;
                             if (discountPercentage != 0)
                             {
+                                // *100 to have it as a percentage bec it stored unpercented(/100)
                                 Console.WriteLine("Discount percentage: "+ discountPercentage*100 + "% ");
                                 discountAmount = totalPrice * discountPercentage;
                                 totalPrice = totalPrice - discountAmount;
@@ -190,7 +191,7 @@ namespace hotelManagementSystem
                             else totalPrice = Math.Round(totalPrice, 3);
 
                             Console.WriteLine("The Bill: ");
-                            Console.WriteLine("Total price: " + totalPrice);
+                            Console.WriteLine("Total price: " + totalPrice + " OMR");
                             //reset room number
                             roomNumber = 0;
                         }
@@ -198,6 +199,23 @@ namespace hotelManagementSystem
                         break;
 
                     case 4:
+                        if (registeredGuest)
+                        {
+                            if (discountPercentage != 0)
+                            {
+                                Console.WriteLine("Discount percentage: " + discountPercentage * 100 + "% ");
+                                totalPrice = nights * nightlyRate;
+                                Console.WriteLine("total price before the discount: " + Math.Round(totalPrice, 3) + " OMR");
+                                discountAmount = totalPrice * discountPercentage;
+                                Console.WriteLine("The discounted amount: " + Math.Round(discountAmount,3) + " OMR");
+                                totalPrice = totalPrice - discountAmount;
+                                Console.WriteLine("total price after the discount: " + Math.Round(totalPrice, 3) + " OMR");
+                                // we can add the idea of if the discounted amount > totalPrice
+                            }
+                            else Console.WriteLine("There is no discount: "+ Math.Round(totalPrice,3) + " OMR");
+                        }
+                        else Console.WriteLine("you need to register first");
+                        Console.WriteLine();
                         break;
 
                     case 5:
@@ -223,7 +241,7 @@ namespace hotelManagementSystem
                 }//switch (userChoice)
 
                 // to not clear the printed info
-                if (userChoice != 1 && userChoice != 2 && userChoice != 3)
+                if (userChoice != 1 && userChoice != 2 && userChoice != 3 && userChoice != 4)
                 {
                     // to can see the result before it clears it
                     Thread.Sleep(2000);
