@@ -26,7 +26,7 @@ namespace hotelManagementSystem
             //discoun = 20%
             double discountPercentage = 0.2;
             double discountAmount = 0;
-            int loyalityPoints;
+            double loyalityPoints;
             bool currentlyCheckedIn = false;
             bool registeredGuest = false;
             int userChoice;
@@ -329,9 +329,20 @@ namespace hotelManagementSystem
                         break;
 
                     case 8:
+                        if (registeredGuest) {
+                            // square the nights
+                            loyalityPoints = Math.Pow(nights, 2);
+
+                            // round to nearest whole number
+                            loyalityPoints = (int)Math.Round(loyalityPoints);
+
+                            Console.WriteLine("Earned points: " + loyalityPoints);
+                        }
+                        else Console.WriteLine("You need to register first");
                         break;
 
                     case 9:
+
                         break;
 
                     case 10:
