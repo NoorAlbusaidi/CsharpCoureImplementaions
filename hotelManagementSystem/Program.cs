@@ -26,7 +26,7 @@ namespace hotelManagementSystem
             //discoun = 20%
             double discountPercentage = 0.2;
             double discountAmount = 0;
-            double loyalityPoints;
+            double loyalityPoints = 0;
             bool currentlyCheckedIn = false;
             bool registeredGuest = false;
             int userChoice;
@@ -342,10 +342,33 @@ namespace hotelManagementSystem
                         break;
 
                     case 9:
+                        if (registeredGuest)
+                        {
+                            // template
+                            string receiptTemplate =
+                                                    "----- HOTEL RECEIPT -----\n" +
+                                                    "Date: {DATE}\n" +
+                                                    "Guest: {NAME}\n" +
+                                                    "Nights: {NIGHTS}\n" +
+                                                    "Earned Points: {EARNED}\n" +
+                                                    "Total price: {TOTAL}\n" +
+                                                    "--------------------------";
+                            // to show the new receipt after the replacements
+                            string receipt = receiptTemplate;
+                            receipt = receipt.Replace("{DATE}", DateTime.Now.ToString("yyyy-MM-dd"));
+                            receipt = receipt.Replace("{NAME}", guestName);
+                            receipt = receipt.Replace("{NIGHTS}", Convert.ToString(nights));
+                            receipt = receipt.Replace("{EARNED}", Convert.ToString(loyalityPoints));
+                            receipt = receipt.Replace("{TOTAL}", Convert.ToString(totalPrice));
 
+                            Console.WriteLine("Your receipt: \n "+ receipt);
+
+                        }
+                        else Console.WriteLine("You need to register first");
                         break;
 
                     case 10:
+
                         break;
 
                     default:
