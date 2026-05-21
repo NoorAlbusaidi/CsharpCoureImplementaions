@@ -1,4 +1,5 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Diagnostics.Metrics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace libraryManagementSystem
 {
@@ -34,6 +35,30 @@ namespace libraryManagementSystem
         static int fineDays = 0;
         const double FINE = 0.500;
         static double payment = 0.0;
+
+        public static double MemberDiscount(string tier) {
+            if (tier == "Basic")
+            {
+                return 10 / 100;
+            }
+            else if (tier == "Standard")
+            {
+                return 20 / 100;
+            }
+            else if (tier == "Premium")
+            {
+                return 30 / 100;
+            }
+            else if (tier == "Student")
+            {
+                return 40 / 100;
+            }
+            else if (tier == "VIP")
+            {
+                return 50 / 100;
+            }
+            else return -1;
+        }
 
         public static int CalculateLateFine(DateTime returndate, DateTime borrowdate) {
 
@@ -402,10 +427,10 @@ namespace libraryManagementSystem
                                     Console.WriteLine("No fine to pay");
                                 }
                             }
-                            else
-                            {
+                            else   
+                                {
+                                //if durationLateDays <= 3
                                 Console.WriteLine("you need to return the book first");
-
                             }
                         }
                         else {
@@ -414,6 +439,7 @@ namespace libraryManagementSystem
                         break;
 
                     case 6:
+
                         break;
 
                     case 7:
