@@ -1,4 +1,6 @@
-﻿namespace libraryManagementSystem
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace libraryManagementSystem
 {
     internal class Program
     {
@@ -19,6 +21,7 @@
         static bool memberRegistered = false;
         static bool bookRegistered = false;
         static bool borrowActive = false;
+        static bool returnActive = false;
         static int borrowedBooks = 0;
         static double totalFines = 0.0;
         bool searchedBook = false;
@@ -27,6 +30,19 @@
         static DateTime borrowDate;
         static DateTime returnDate;
         static DateTime exactReturnDate;
+        static int durationLateDays = 0;
+        static int fineDays = 0;
+        const double FINE = 0.500;
+        static double payment = 0.0;
+
+        public static int CalculateLateFine(DateTime returndate, DateTime borrowdate) {
+
+                TimeSpan lateDays = returndate - borrowdate;
+                int days = lateDays.Days;
+                return days;
+            
+
+        }
         public static void returnBook(ref int copies) {
             // if borrowActive == true means someone is borrowed the book means the book is registered so no need to check if bookRegistered
             // so first you need to borrow a book 
@@ -363,7 +379,38 @@
                         }
                         break;
 
+                        //###need to be checked
                     case 5:
+                        if (memberRegistered)
+                        {
+                            // means you returned the book
+                            if (borrowActive == false)
+                            {
+                                durationLateDays = CalculateLateFine(exactReturnDate, borrowDate);
+                                if (durationLateDays > 3)
+                                {
+                                    fineDays = durationLateDays - 3;
+                                    Console.WriteLine("You are late for: " + fineDays + " Days.");
+
+                                    //payment FINE PER DAY = 0.500
+                                    payment = fineDays * FINE;
+                                    Console.WriteLine("you need to pay: " + payment + " OMR");
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No fine to pay");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("you need to return the book first");
+
+                            }
+                        }
+                        else {
+                            Console.WriteLine("you need to register first");
+                        }
                         break;
 
                     case 6:
