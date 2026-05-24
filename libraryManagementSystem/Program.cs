@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.Metrics;
+using System.Drawing;
+using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace libraryManagementSystem
@@ -35,7 +37,29 @@ namespace libraryManagementSystem
         static int fineDays = 0;
         const double FINE = 0.500;
         static double payment = 0.0;
+       
 
+        public static string GenerateMemberID()
+        {
+            //Get current timestamp as ticks (long number)
+            //1 tick = 100 nanoseconds (very very small)
+            // DateTime.Now.Ticks gives you: the number of ticks since January 1, year 0001
+            long ticks = DateTime.Now.Ticks; //gets a very large number based on current time(unique)
+
+            //Apply a mathematical operation (square root)
+            double sqrtValue = Math.Sqrt(ticks);
+
+            //Convert to string
+            string idPart = sqrtValue.ToString().Replace(".", "");
+
+            //Take part of the string using Substring
+            string shortId = idPart.Substring(0, 5);
+
+            //Combine into final ID
+            string memberID = "MEM" + shortId;
+
+            return memberID;
+        }
         public static bool IsMemberEligible(DateTime expiryDate)
         {
 
@@ -486,20 +510,16 @@ namespace libraryManagementSystem
                             if (IsMemberEligible(membershipExpiryDate))
                             {
                                 Console.WriteLine("You are Eligibile to borrow");
-                                //pause for 2 sec to can see the result then clear the console
-                                Thread.Sleep(2000);
-                                Console.Clear();
 
                             }
                             else
                             {
                                 Console.WriteLine("You need to renew your membership");
-                                //pause for 2 sec to can see the result then clear the console
-                                Thread.Sleep(2000);
-                                Console.Clear();
+
                             }
                         }
                         else Console.WriteLine("You need to register first \n");
+
                         //pause for 2 sec to can see the result then clear the console
                         Thread.Sleep(2000);
                         Console.Clear();
@@ -510,6 +530,16 @@ namespace libraryManagementSystem
                         break;
 
                     case 9:
+                        if (memberRegistered)
+                        {
+                            memberID = GenerateMemberID();
+                            Console.WriteLine("Your ID is: "+ memberID + "\n");
+                        }
+                        else Console.WriteLine("You need to register first \n");
+
+                        //pause for 2 sec to can see the result then clear the console
+                        Thread.Sleep(3000);
+                        Console.Clear();
                         break;
 
                     case 10:
