@@ -38,6 +38,21 @@ namespace libraryManagementSystem
         const double FINE = 0.500;
         static double payment = 0.0;
 
+        public static bool UpdateMemberEmail(string newEmail, out string cleanedEmail)
+        {
+            //Clean the email (remove spaces)
+            cleanedEmail = newEmail.Trim();
+            //to can validate it if it contains @gmail.com
+            cleanedEmail = newEmail.ToLower();
+
+            //Validate email (simple check)
+            if (cleanedEmail.Contains("@gmail.com"))
+            {
+                return true; // valid email
+            }
+
+            return false; // invalid email
+        }
         public static void DisplayBookDetails(string title, string author, string genre, int cop)
         {
             Console.WriteLine("Title".PadRight(20)+ "Author".PadRight(20)+"Genre".PadRight(20)+"Copies".PadRight(20));
@@ -572,9 +587,46 @@ namespace libraryManagementSystem
                         break;
 
                     case 11:
+
                         break;
 
                     case 12:
+                        if (memberRegistered)
+                        {
+                            string resultEmail;
+                            Console.Write("Please enter your new email:");
+                            string updatedEmail = Console.ReadLine();
+                            bool isValid = UpdateMemberEmail(updatedEmail, out resultEmail);
+
+                            if (isValid)
+                            {
+
+                                Console.WriteLine("this is your new email: " + resultEmail + " \n");
+                                memberEmail = resultEmail;
+                                Thread.Sleep(3000);
+                                Console.Clear();
+                            }
+                            else
+                            {
+                                while (!updatedEmail.Contains("@gmail.com"))
+                                {
+                                    Console.WriteLine("Invalid email");
+                                    Console.Write("Please enter your new email:");
+                                    updatedEmail = Console.ReadLine();
+                                    isValid = UpdateMemberEmail(updatedEmail, out resultEmail);
+                                }
+                                Console.WriteLine("this is your new email: " + resultEmail + " \n");
+                                memberEmail = resultEmail;
+                                Thread.Sleep(3000);
+                                Console.Clear();
+                            }
+                        }
+                        else {
+                            Console.WriteLine("You need to be registered first");
+                            Thread.Sleep(3000);
+                            Console.Clear();
+
+                        }
                         break;
 
                     case 13:
