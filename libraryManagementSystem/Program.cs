@@ -36,6 +36,19 @@ namespace libraryManagementSystem
         const double FINE = 0.500;
         static double payment = 0.0;
 
+        public static bool IsMemberEligible(DateTime expiryDate)
+        {
+
+            // Compare with today's date
+            if (expiryDate >= DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static double MemberDiscount(string tier) {
             if (tier == "Basic")
             {
@@ -59,7 +72,21 @@ namespace libraryManagementSystem
             }
             else return -1;
         }
+        public bool IsMemberEligible(string expiryDate)
+        {
+            // Convert string to DateTime
+            DateTime expiry = DateTime.Parse(expiryDate);
 
+            // Compare with today's date
+            if (expiry >= DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static int CalculateLateFine(DateTime returndate, DateTime borrowdate) {
 
                 TimeSpan lateDays = returndate - borrowdate;
@@ -290,24 +317,35 @@ namespace libraryManagementSystem
                 //save the type
                 if (memberTierChoice == 1) {
                     memberTierName = "Basic";
+                    // the membership is valid for 1 month
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(1); //add 1 month from the start date
                 }
                 else if(memberTierChoice ==2 ) {
                     memberTierName = "Standard";
+                    // the membership is valid for 3 months
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(3); //add 3 months from the start date
                 }
                 else if (memberTierChoice == 3) {
                     memberTierName = "Premium";
+                    // the membership is valid for 6 months
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(6); //add 6 months from the start date
                 }
                 else if (memberTierChoice == 4) {
                     memberTierName = "Student";
+                    // the membership is valid for 10 months
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(10); //add 10 months from the start date
                 }
                 else if (memberTierChoice == 5) {
                     memberTierName = "VIP";
+                    // the membership is valid for 1 year
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddYears(1); //add one year from the start date
                 }
                 memberRegistered = true;
-
-                // the membership is valid for 1 year
-                membershipStartDate = DateTime.Now;
-                membershipExpiryDate = membershipStartDate.AddYears(1); //add one year from the start date
 
                 Console.WriteLine("YOUR REGISTERATION IS DONE");
                 Console.WriteLine("=== WELCOME TO OUR LIBRARY ===");
@@ -443,6 +481,28 @@ namespace libraryManagementSystem
                         break;
 
                     case 7:
+                        if (memberRegistered)
+                        {
+                            if (IsMemberEligible(membershipExpiryDate))
+                            {
+                                Console.WriteLine("You are Eligibile to borrow");
+                                //pause for 2 sec to can see the result then clear the console
+                                Thread.Sleep(2000);
+                                Console.Clear();
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("You need to renew your membership");
+                                //pause for 2 sec to can see the result then clear the console
+                                Thread.Sleep(2000);
+                                Console.Clear();
+                            }
+                        }
+                        else Console.WriteLine("You need to register first \n");
+                        //pause for 2 sec to can see the result then clear the console
+                        Thread.Sleep(2000);
+                        Console.Clear();
                         break;
 
                     case 8:
