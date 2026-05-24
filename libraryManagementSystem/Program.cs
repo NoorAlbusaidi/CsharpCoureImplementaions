@@ -17,7 +17,7 @@ namespace libraryManagementSystem
         static DateTime membershipStartDate;
         static string memberTierName = "";
         static int memberTierChoice = 0;
-        static string bookTitle = "";
+        static string bookTitle = ""; 
         static string bookAuthor = "";
         static string bookGenre = "";
         static int CopiesNum = 0; //constant
@@ -37,8 +37,19 @@ namespace libraryManagementSystem
         static int fineDays = 0;
         const double FINE = 0.500;
         static double payment = 0.0;
-       
 
+        public static void DisplayBookDetails(string title, string author, string genre, int cop)
+        {
+            Console.WriteLine("Title".PadRight(20)+ "Author".PadRight(20)+"Genre".PadRight(20)+"Copies".PadRight(20));
+            string line = new string('-', 80);
+            Console.WriteLine(line);
+            Console.WriteLine(
+                title.PadRight(20) +
+                author.PadRight(20) +
+                genre.PadRight(20)+
+                Convert.ToString(cop).PadRight(20)+"\n"
+            );
+        }
         public static string GenerateMemberID()
         {
             //Get current timestamp as ticks (long number)
@@ -193,6 +204,7 @@ namespace libraryManagementSystem
                 {
                     // no need for genre will use the default one
                     registerBook(bookTitle, bookAuthor, CopiesNum);
+                    bookGenre = "General";
                 }
                 else
                 {
@@ -543,6 +555,20 @@ namespace libraryManagementSystem
                         break;
 
                     case 10:
+                        if (bookRegistered)
+                        {
+                            DisplayBookDetails(
+                                    title: bookTitle,
+                                    author: bookAuthor,
+                                    genre: bookGenre,
+                                    cop: CopiesNum
+                                    );
+                        }
+                        else {
+                            Console.WriteLine("book need to be registered \n");
+                            Thread.Sleep(2000);
+                            Console.Clear() ;
+                        }
                         break;
 
                     case 11:
