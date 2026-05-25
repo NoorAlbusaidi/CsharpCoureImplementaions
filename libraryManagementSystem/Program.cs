@@ -37,7 +37,21 @@ namespace libraryManagementSystem
         static int fineDays = 0;
         const double FINE = 0.500;
         static double payment = 0.0;
+        static double calFeeDays = 0.0;
+        static double calFeeDaysPre = 0.0;
 
+        public static void DisplaySessionSummary()
+        {
+            // Get current date and time
+            DateTime now = DateTime.Now;
+
+            // Display summary
+            Console.WriteLine("----- Session Summary -----");
+            Console.WriteLine("Member Name: " + memberName);
+            Console.WriteLine("Books Borrowed: " + borrowedBooks);
+            Console.WriteLine("Total Fines Paid: " + (payment+ calFeeDays+ calFeeDaysPre));
+            Console.WriteLine("Date & Time: " + now);
+        }
         public static double CalculateFee(int days, bool isPremiumDiscount)
         {
             double feePerDay = 2.0;
@@ -607,14 +621,14 @@ namespace libraryManagementSystem
                     case 11:
                         if (borrowActive)
                         {
-                            Console.WriteLine("Are you standard member? ");
+                            Console.Write("Are you standard member? ");
                             string standard = Console.ReadLine();
                             if (standard.ToLower() == "yes")
                             {
 
                                 Console.Write("For how many days do you want to extend? ");
                                 int standardFeeDays = int.Parse(Console.ReadLine());
-                                double calFeeDays = CalculateFee(standardFeeDays);
+                                calFeeDays = CalculateFee(standardFeeDays);
                                 Console.WriteLine("The payment is: " + calFeeDays + " OMR for " + standardFeeDays + " days \n");
 
                             }
@@ -629,7 +643,7 @@ namespace libraryManagementSystem
                                     bool premiumAnswer = true;
                                     Console.Write("For how many days do you want to extend? ");
                                     int premiumFeeDays = int.Parse(Console.ReadLine());
-                                    double calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
+                                    calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
                                     Console.WriteLine("The payment is: " + calFeeDaysPre + " OMR for " + premiumFeeDays + " days \n");
 
                                 }
@@ -639,7 +653,7 @@ namespace libraryManagementSystem
                                     bool premiumAnswer = false;
                                     Console.Write("For how many days do you want to extend? ");
                                     int premiumFeeDays = int.Parse(Console.ReadLine());
-                                    double calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
+                                    calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
                                     Console.WriteLine("The payment is: " + calFeeDaysPre + " OMR for " + premiumFeeDays + " days \n");
                                 }
 
@@ -688,24 +702,19 @@ namespace libraryManagementSystem
                         }
                         break;
 
-                    case 13:
-                        break;
-
                     default:
                         Console.WriteLine("Invalid choice");
                         break;
-
-
-
-
 
                 }//switch (choice)
 
                 //after each case will allow for user to choose another service
                 viewMainMenue();
             }//while (choice != 0)
-            
+
             //when choice == 13 show the summary of the session
+            Console.WriteLine("===GOOD BYE=== \n");
+            DisplaySessionSummary();
 
 
 
