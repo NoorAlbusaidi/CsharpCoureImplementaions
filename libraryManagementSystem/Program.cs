@@ -38,6 +38,24 @@ namespace libraryManagementSystem
         const double FINE = 0.500;
         static double payment = 0.0;
 
+        public static double CalculateFee(int days, bool isPremiumDiscount)
+        {
+            double feePerDay = 2.0;
+            double total = days * feePerDay;
+
+            if (isPremiumDiscount)
+            {
+                total = total / 2;
+            }
+            else Console.WriteLine("you are not a premium member");
+
+            return total;
+        }
+        public static double CalculateFee(int days)
+        {
+            double feePerDay = 2.0;
+            return days * feePerDay;
+        }
         public static bool UpdateMemberEmail(string newEmail, out string cleanedEmail)
         {
             //Clean the email (remove spaces)
@@ -587,7 +605,48 @@ namespace libraryManagementSystem
                         break;
 
                     case 11:
+                        if (borrowActive)
+                        {
+                            Console.WriteLine("Are you standard member? ");
+                            string standard = Console.ReadLine();
+                            if (standard.ToLower() == "yes")
+                            {
 
+                                Console.Write("For how many days do you want to extend? ");
+                                int standardFeeDays = int.Parse(Console.ReadLine());
+                                double calFeeDays = CalculateFee(standardFeeDays);
+                                Console.WriteLine("The payment is: " + calFeeDays + " OMR for " + standardFeeDays + " days \n");
+
+                            }
+                            else
+                            {
+                                Console.Write("Are you premium member? ");
+                                string premium = Console.ReadLine();
+
+
+                                if (premium.ToLower() == "yes")
+                                {
+                                    bool premiumAnswer = true;
+                                    Console.Write("For how many days do you want to extend? ");
+                                    int premiumFeeDays = int.Parse(Console.ReadLine());
+                                    double calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
+                                    Console.WriteLine("The payment is: " + calFeeDaysPre + " OMR for " + premiumFeeDays + " days \n");
+
+                                }
+                                else
+                                {
+
+                                    bool premiumAnswer = false;
+                                    Console.Write("For how many days do you want to extend? ");
+                                    int premiumFeeDays = int.Parse(Console.ReadLine());
+                                    double calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
+                                    Console.WriteLine("The payment is: " + calFeeDaysPre + " OMR for " + premiumFeeDays + " days \n");
+                                }
+
+
+                            }
+                        }
+                        else Console.WriteLine("You need to borrow a book first \n");
                         break;
 
                     case 12:
