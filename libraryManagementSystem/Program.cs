@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.Metrics;
+using System.Drawing;
+using System.Xml;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace libraryManagementSystem
@@ -15,7 +17,7 @@ namespace libraryManagementSystem
         static DateTime membershipStartDate;
         static string memberTierName = "";
         static int memberTierChoice = 0;
-        static string bookTitle = "";
+        static string bookTitle = ""; 
         static string bookAuthor = "";
         static string bookGenre = "";
         static int CopiesNum = 0; //constant
@@ -35,7 +37,100 @@ namespace libraryManagementSystem
         static int fineDays = 0;
         const double FINE = 0.500;
         static double payment = 0.0;
+        static double calFeeDays = 0.0;
+        static double calFeeDaysPre = 0.0;
 
+        public static void DisplaySessionSummary()
+        {
+            // Get current date and time
+            DateTime now = DateTime.Now;
+
+            // Display summary
+            Console.WriteLine("----- Session Summary -----");
+            Console.WriteLine("Member Name: " + memberName);
+            Console.WriteLine("Books Borrowed: " + borrowedBooks);
+            Console.WriteLine("Total Fines Paid: " + (payment+ calFeeDays+ calFeeDaysPre));
+            Console.WriteLine("Date & Time: " + now);
+        }
+        public static double CalculateFee(int days, bool isPremiumDiscount)
+        {
+            double feePerDay = 2.0;
+            double total = days * feePerDay;
+
+            if (isPremiumDiscount)
+            {
+                total = total / 2;
+            }
+            else Console.WriteLine("you are not a premium member");
+
+            return total;
+        }
+        public static double CalculateFee(int days)
+        {
+            double feePerDay = 2.0;
+            return days * feePerDay;
+        }
+        public static bool UpdateMemberEmail(string newEmail, out string cleanedEmail)
+        {
+            //Clean the email (remove spaces)
+            cleanedEmail = newEmail.Trim();
+            //to can validate it if it contains @gmail.com
+            cleanedEmail = newEmail.ToLower();
+
+            //Validate email (simple check)
+            if (cleanedEmail.Contains("@gmail.com"))
+            {
+                return true; // valid email
+            }
+
+            return false; // invalid email
+        }
+        public static void DisplayBookDetails(string title, string author, string genre, int cop)
+        {
+            Console.WriteLine("Title".PadRight(20)+ "Author".PadRight(20)+"Genre".PadRight(20)+"Copies".PadRight(20));
+            string line = new string('-', 80);
+            Console.WriteLine(line);
+            Console.WriteLine(
+                title.PadRight(20) +
+                author.PadRight(20) +
+                genre.PadRight(20)+
+                Convert.ToString(cop).PadRight(20)+"\n"
+            );
+        }
+        public static string GenerateMemberID()
+        {
+            //Get current timestamp as ticks (long number)
+            //1 tick = 100 nanoseconds (very very small)
+            // DateTime.Now.Ticks gives you: the number of ticks since January 1, year 0001
+            long ticks = DateTime.Now.Ticks; //gets a very large number based on current time(unique)
+
+            //Apply a mathematical operation (square root)
+            double sqrtValue = Math.Sqrt(ticks);
+
+            //Convert to string
+            string idPart = sqrtValue.ToString().Replace(".", "");
+
+            //Take part of the string using Substring
+            string shortId = idPart.Substring(0, 5);
+
+            //Combine into final ID
+            string memberID = "MEM" + shortId;
+
+            return memberID;
+        }
+        public static bool IsMemberEligible(DateTime expiryDate)
+        {
+
+            // Compare with today's date
+            if (expiryDate >= DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static double MemberDiscount(string tier) {
             if (tier == "Basic")
             {
@@ -59,9 +154,21 @@ namespace libraryManagementSystem
             }
             else return -1;
         }
+        public bool IsMemberEligible(string expiryDate)
+        {
+            // Convert string to DateTime
+            DateTime expiry = DateTime.Parse(expiryDate);
 
-
-
+            // Compare with today's date
+            if (expiry >= DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static int CalculateLateFine(DateTime returndate, DateTime borrowdate) {
 
                 TimeSpan lateDays = returndate - borrowdate;
@@ -144,6 +251,7 @@ namespace libraryManagementSystem
                 {
                     // no need for genre will use the default one
                     registerBook(bookTitle, bookAuthor, CopiesNum);
+                    bookGenre = "General";
                 }
                 else
                 {
@@ -292,24 +400,35 @@ namespace libraryManagementSystem
                 //save the type
                 if (memberTierChoice == 1) {
                     memberTierName = "Basic";
+                    // the membership is valid for 1 month
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(1); //add 1 month from the start date
                 }
                 else if(memberTierChoice ==2 ) {
                     memberTierName = "Standard";
+                    // the membership is valid for 3 months
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(3); //add 3 months from the start date
                 }
                 else if (memberTierChoice == 3) {
                     memberTierName = "Premium";
+                    // the membership is valid for 6 months
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(6); //add 6 months from the start date
                 }
                 else if (memberTierChoice == 4) {
                     memberTierName = "Student";
+                    // the membership is valid for 10 months
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddMonths(10); //add 10 months from the start date
                 }
                 else if (memberTierChoice == 5) {
                     memberTierName = "VIP";
+                    // the membership is valid for 1 year
+                    membershipStartDate = DateTime.Now;
+                    membershipExpiryDate = membershipStartDate.AddYears(1); //add one year from the start date
                 }
                 memberRegistered = true;
-
-                // the membership is valid for 1 year
-                membershipStartDate = DateTime.Now;
-                membershipExpiryDate = membershipStartDate.AddYears(1); //add one year from the start date
 
                 Console.WriteLine("YOUR REGISTERATION IS DONE");
                 Console.WriteLine("=== WELCOME TO OUR LIBRARY ===");
@@ -445,6 +564,24 @@ namespace libraryManagementSystem
                         break;
 
                     case 7:
+                        if (memberRegistered)
+                        {
+                            if (IsMemberEligible(membershipExpiryDate))
+                            {
+                                Console.WriteLine("You are Eligibile to borrow");
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("You need to renew your membership");
+
+                            }
+                        }
+                        else Console.WriteLine("You need to register first \n");
+
+                        //pause for 2 sec to can see the result then clear the console
+                        Thread.Sleep(2000);
+                        Console.Clear();
                         break;
 
                     case 8:
@@ -452,35 +589,132 @@ namespace libraryManagementSystem
                         break;
 
                     case 9:
+                        if (memberRegistered)
+                        {
+                            memberID = GenerateMemberID();
+                            Console.WriteLine("Your ID is: "+ memberID + "\n");
+                        }
+                        else Console.WriteLine("You need to register first \n");
+
+                        //pause for 2 sec to can see the result then clear the console
+                        Thread.Sleep(3000);
+                        Console.Clear();
                         break;
 
                     case 10:
+                        if (bookRegistered)
+                        {
+                            DisplayBookDetails(
+                                    title: bookTitle,
+                                    author: bookAuthor,
+                                    genre: bookGenre,
+                                    cop: CopiesNum
+                                    );
+                        }
+                        else {
+                            Console.WriteLine("book need to be registered \n");
+                            Thread.Sleep(2000);
+                            Console.Clear() ;
+                        }
                         break;
 
                     case 11:
+                        if (borrowActive)
+                        {
+                            Console.Write("Are you standard member? ");
+                            string standard = Console.ReadLine();
+                            if (standard.ToLower() == "yes")
+                            {
+
+                                Console.Write("For how many days do you want to extend? ");
+                                int standardFeeDays = int.Parse(Console.ReadLine());
+                                calFeeDays = CalculateFee(standardFeeDays);
+                                Console.WriteLine("The payment is: " + calFeeDays + " OMR for " + standardFeeDays + " days \n");
+
+                            }
+                            else
+                            {
+                                Console.Write("Are you premium member? ");
+                                string premium = Console.ReadLine();
+
+
+                                if (premium.ToLower() == "yes")
+                                {
+                                    bool premiumAnswer = true;
+                                    Console.Write("For how many days do you want to extend? ");
+                                    int premiumFeeDays = int.Parse(Console.ReadLine());
+                                    calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
+                                    Console.WriteLine("The payment is: " + calFeeDaysPre + " OMR for " + premiumFeeDays + " days \n");
+
+                                }
+                                else
+                                {
+
+                                    bool premiumAnswer = false;
+                                    Console.Write("For how many days do you want to extend? ");
+                                    int premiumFeeDays = int.Parse(Console.ReadLine());
+                                    calFeeDaysPre = CalculateFee(premiumFeeDays, premiumAnswer);
+                                    Console.WriteLine("The payment is: " + calFeeDaysPre + " OMR for " + premiumFeeDays + " days \n");
+                                }
+
+
+                            }
+                        }
+                        else Console.WriteLine("You need to borrow a book first \n");
                         break;
 
                     case 12:
-                        break;
+                        if (memberRegistered)
+                        {
+                            string resultEmail;
+                            Console.Write("Please enter your new email:");
+                            string updatedEmail = Console.ReadLine();
+                            bool isValid = UpdateMemberEmail(updatedEmail, out resultEmail);
 
-                    case 13:
+                            if (isValid)
+                            {
+
+                                Console.WriteLine("this is your new email: " + resultEmail + " \n");
+                                memberEmail = resultEmail;
+                                Thread.Sleep(3000);
+                                Console.Clear();
+                            }
+                            else
+                            {
+                                while (!updatedEmail.Contains("@gmail.com"))
+                                {
+                                    Console.WriteLine("Invalid email");
+                                    Console.Write("Please enter your new email:");
+                                    updatedEmail = Console.ReadLine();
+                                    isValid = UpdateMemberEmail(updatedEmail, out resultEmail);
+                                }
+                                Console.WriteLine("this is your new email: " + resultEmail + " \n");
+                                memberEmail = resultEmail;
+                                Thread.Sleep(3000);
+                                Console.Clear();
+                            }
+                        }
+                        else {
+                            Console.WriteLine("You need to be registered first");
+                            Thread.Sleep(3000);
+                            Console.Clear();
+
+                        }
                         break;
 
                     default:
                         Console.WriteLine("Invalid choice");
                         break;
 
-
-
-
-
                 }//switch (choice)
 
                 //after each case will allow for user to choose another service
                 viewMainMenue();
             }//while (choice != 0)
-            
+
             //when choice == 13 show the summary of the session
+            Console.WriteLine("===GOOD BYE=== \n");
+            DisplaySessionSummary();
 
 
 
