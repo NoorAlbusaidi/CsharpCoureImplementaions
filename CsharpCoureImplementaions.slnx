@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="arraysPracticeTaskSheet/arraysPracticeTaskSheet.csproj" Id="9ef74b97-31fb-4ddc-9955-522c17d3f18a" />
   <Project Path="hotelManagementSystem/hotelManagementSystem.csproj" />
   <Project Path="libraryManagementSystem/libraryManagementSystem.csproj" Id="9e4e41f9-6592-42b8-84a3-1846f63ebd07" />
 </Solution>
