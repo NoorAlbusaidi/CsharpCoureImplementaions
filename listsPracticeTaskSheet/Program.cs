@@ -57,17 +57,18 @@
 
         public static void raceFinishTimes()
         {
-            int[] finishTimes = { 4, 5, 8, 9, 15, 10, 11, 12 };
-            Console.WriteLine("Finish times for " + finishTimes.Length + " runners: ");
+            List <int> finishTimes = new List<int> { 4, 5, 8, 9, 15, 10, 11, 12 };
+            
+            Console.WriteLine("Finish times for " + finishTimes.Count + " runners: ");
             foreach (int i in finishTimes)
             {
                 Console.Write(i + " sec, ");
             }
             Console.WriteLine();
 
-            Array.Sort(finishTimes);
+            finishTimes.Sort();
             Console.WriteLine("sorted finish times: ");
-            Console.WriteLine("Finish times for " + finishTimes.Length + " runners: ");
+            Console.WriteLine("Finish times for " + finishTimes.Count + " runners: ");
             foreach (int i in finishTimes)
             {
                 Console.Write(i + " sec, ");
