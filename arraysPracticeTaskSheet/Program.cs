@@ -143,6 +143,44 @@ namespace arraysPracticeTaskSheet
             double average = revenue.Sum() / revenue.Length;
             Console.WriteLine("The average monthly revenue is: " + Math.Round(average,3));
         }
+
+        public static void flightSeatAllocationDisplay()
+        {
+            int[] seats = { 45, 12, 78, 34, 23, 56, 89, 67, 11, 90, 32, 21, 54, 76, 88 };
+            int[] reverse = new int[seats.Length];
+            
+            
+
+            Console.WriteLine("Original Seat Assignments:");
+            foreach (int seat in seats) {
+                Console.Write(seat + " ");
+            }
+            Console.WriteLine("\n");
+            Array.Sort(seats);
+            Console.WriteLine("Sorted Boarding Order:");
+            Array.ForEach(seats, x => Console.Write(x + " "));
+            Console.WriteLine("\n");
+
+            int targetSeat = 67;
+            int targetIndex = Array.IndexOf(seats, targetSeat);
+
+            if (targetIndex == -1)
+            {
+                Console.WriteLine("Seat is not found");
+            }
+            else {
+                Console.WriteLine("Seat "+targetSeat + " found at sorted position: "+ targetIndex);
+            }
+            Console.WriteLine();
+            seats.CopyTo(reverse);
+            Array.Reverse(reverse);
+            for (int i = 0; i < seats.Length; i++) {
+                Console.WriteLine($"Index {i}: Seats: {seats[i]} Reversed: {reverse[i]} ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Total Seats: "+seats.Length);
+        }
+
         static void Main(string[] args)
         {
             string service;
@@ -156,7 +194,7 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("6. Warehouse Inventory Check");
             Console.WriteLine("7. Library Book Shelf Scanner ");
             Console.WriteLine("8. Sales Performance Analyzer");
-            Console.WriteLine("9. ");
+            Console.WriteLine("9. Flight Seat Allocation Display");
             Console.WriteLine("10. ");
             Console.WriteLine("q. Quit ");
             Console.WriteLine();
@@ -198,6 +236,10 @@ namespace arraysPracticeTaskSheet
                         salesPerformanceAnalyzer();
                         break;
 
+                    case "9":
+                        flightSeatAllocationDisplay();
+                        break;
+
                 }//switch
                 Console.WriteLine();
                 Console.WriteLine("The cases: ");
@@ -209,7 +251,7 @@ namespace arraysPracticeTaskSheet
                 Console.WriteLine("6. Warehouse Inventory Check");
                 Console.WriteLine("7. Library Book Shelf Scanner");
                 Console.WriteLine("8. Sales Performance Analyzer");
-                Console.WriteLine("9. ");
+                Console.WriteLine("9. Flight Seat Allocation Display");
                 Console.WriteLine("10. ");
                 Console.WriteLine("q. Quit ");
                 Console.WriteLine();
