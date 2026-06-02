@@ -160,10 +160,8 @@
 
         public static void flightSeatAllocationDisplay()
         {
-            int[] seats = { 45, 12, 78, 34, 23, 56, 89, 67, 11, 90, 32, 21, 54, 76, 88 };
-            int[] reverse = new int[seats.Length];
-
-
+            List<int> seats = new List<int> { 45, 12, 78, 34, 23, 56, 89, 67, 11, 90, 32, 21, 54, 76, 88 };
+            List<int> reverse = new List<int>();
 
             Console.WriteLine("Original Seat Assignments:");
             foreach (int seat in seats)
@@ -171,13 +169,13 @@
                 Console.Write(seat + " ");
             }
             Console.WriteLine("\n");
-            Array.Sort(seats);
+            seats.Sort();
             Console.WriteLine("Sorted Boarding Order:");
-            Array.ForEach(seats, x => Console.Write(x + " "));
+            seats.ForEach(x => Console.Write(x + " "));
             Console.WriteLine("\n");
 
             int targetSeat = 67;
-            int targetIndex = Array.IndexOf(seats, targetSeat);
+            int targetIndex = seats.IndexOf(targetSeat);
 
             if (targetIndex == -1)
             {
@@ -188,14 +186,15 @@
                 Console.WriteLine("Seat " + targetSeat + " found at sorted position: " + targetIndex);
             }
             Console.WriteLine();
-            seats.CopyTo(reverse);
-            Array.Reverse(reverse);
-            for (int i = 0; i < seats.Length; i++)
+            // make a copy of sorted list
+            reverse = new List<int>(seats);
+            reverse.Reverse();
+            for (int i = 0; i < seats.Count; i++)
             {
                 Console.WriteLine($"Index {i}: Seats: {seats[i]} Reversed: {reverse[i]} ");
             }
             Console.WriteLine();
-            Console.WriteLine("Total Seats: " + seats.Length);
+            Console.WriteLine("Total Seats: " + seats.Count);
         }
 
         public static void hospitalPatientPriorityQueue()
