@@ -14,14 +14,14 @@
 
         public static void studentScores()
         {
-            int[] scores = { 15, 20, 13, 17, 18, 19 };
+            List<int> scores = new List<int> { 15, 20, 13, 17, 18, 19 };
             Console.WriteLine("Scores:");
             foreach (int i in scores)
             {
                 Console.Write(i + " ");
 
             }
-            Array.Reverse(scores);
+            scores.Reverse();
             Console.WriteLine("\nScores in reverse order:");
             foreach (int i in scores)
             {
