@@ -91,14 +91,14 @@
 
         public static void warehouseInventoryCheck()
         {
-            int[] quantities = { 5, 20, 100, 40, 55, 88, 500, 78 };
+            List <int> quantities = new List<int> { 5, 20, 100, 40, 55, 88, 500, 78 };
             int total = quantities.Sum();
             Console.WriteLine("The total of quantities: " + total);
-            Console.WriteLine("The Average: " + (total / quantities.Length));
+            Console.WriteLine("The Average: " + (total / quantities.Count));
             Console.WriteLine();
             Console.Write("Enter the quantity you want: ");
             int userQuantity = int.Parse(Console.ReadLine());
-            int quantity = Array.IndexOf(quantities, userQuantity);
+            int quantity = quantities.IndexOf(userQuantity);
 
             if (quantity == -1)
             {
