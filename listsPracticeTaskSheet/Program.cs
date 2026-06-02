@@ -78,11 +78,12 @@
 
         public static void classroomGradeReport()
         {
-            int[] grades = { 69, 71, 55, 80, 90, 99, 50, 87, 98, 93 };
-            Array.Sort(grades);
-            Array.Reverse(grades);
+            List<int> grades = new List<int> { 69, 71, 55, 80, 90, 99, 50, 87, 98, 93 };
 
-            for (int i = 0; i < grades.Length; i++)
+            grades.Sort();
+            grades.Reverse();
+
+            for (int i = 0; i < grades.Count; i++)
             {
                 Console.WriteLine("Rank " + (i + 1) + ": " + grades[i]);
             }
