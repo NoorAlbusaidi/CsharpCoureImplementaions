@@ -35,15 +35,16 @@
 
         public static void productPriceFinder()
         {
-            double[] prices = { 10.5, 20, 11, 12.2, 5.3 };
-            for (int i = 0; i < prices.Length; i++)
+            List<double> prices = new List<double> { 10.5, 20, 11, 12.2, 5.3 };
+           
+            for (int i = 0; i < prices.Count; i++)
             {
                 Console.WriteLine("Product " + (i + 1) + ": " + prices[i] + " OMR");
             }
 
             Console.Write("Enter the price of the product: ");
             double price = double.Parse(Console.ReadLine());
-            int index = Array.IndexOf(prices, price);
+            int index = prices.IndexOf(price);
             if (index == -1)
             {
                 Console.WriteLine("Sorry the product is not found");
