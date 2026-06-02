@@ -200,32 +200,33 @@
         public static void hospitalPatientPriorityQueue()
         {
             int patients = 0;
-            int[] severity = { 3, 7, 1, 9, 5, 2, 8, 6, 4, 10,
-                               7, 3, 6, 2, 9, 1, 5, 8, 4, 10 };
-            int[] sortedSeverity = new int[severity.Length];
+            List<int> severity = new List<int>{ 3, 7, 1, 9, 5, 2, 8, 6, 4, 10,
+                                                7, 3, 6, 2, 9, 1, 5, 8, 4, 10 };
+            List<int> sortedSeverity = new List<int>();
 
-            for (int i = 0; i < severity.Length; i++)
+            for (int i = 0; i < severity.Count; i++)
             {
-                sortedSeverity[i] = severity[i];
+                sortedSeverity.Add(severity[i]);
             }
-            Array.Sort(sortedSeverity);
-            Array.Reverse(sortedSeverity);
 
-            for (int i = 0; i < sortedSeverity.Length; i++)
+            sortedSeverity.Sort();
+            sortedSeverity.Reverse();
+
+            for (int i = 0; i < sortedSeverity.Count; i++)
             {
                 Console.WriteLine($"Patient {i + 1} : The severity level: {sortedSeverity[i]}");
             }
 
-            Array.Reverse(sortedSeverity);
-            int mid1 = sortedSeverity.Length / 2 - 1;
-            int mid2 = sortedSeverity.Length / 2;
+            sortedSeverity.Reverse();
+            int mid1 = sortedSeverity.Count / 2 - 1;
+            int mid2 = sortedSeverity.Count / 2;
 
             double median = (sortedSeverity[mid1] + sortedSeverity[mid2]) / 2.0;
             Console.WriteLine();
             Console.WriteLine("Median: " + median);
             Console.WriteLine();
 
-            for (int i = 0; i < sortedSeverity.Length; i++)
+            for (int i = 0; i < sortedSeverity.Count; i++)
             {
                 if (sortedSeverity[i] <= 3)
                 {
@@ -237,7 +238,7 @@
 
             Console.WriteLine();
             int severityScoreTarget = 5;
-            int severityIndex = Array.IndexOf(sortedSeverity, severityScoreTarget);
+            int severityIndex = sortedSeverity.IndexOf(severityScoreTarget);
             Console.WriteLine("The first patient with severity score = " + severityScoreTarget + " at position: " + severityIndex);
 
         }
