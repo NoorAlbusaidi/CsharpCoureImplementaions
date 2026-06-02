@@ -123,6 +123,26 @@ namespace arraysPracticeTaskSheet
                 }
             }
         }
+
+        public static void salesPerformanceAnalyzer() {
+            double[] revenue = { 1200.50, 1350.75, 1420.00, 1600.25, 1750.80, 1900.60,
+                                 2100.40, 2200.90, 2000.00, 1850.30, 1700.10, 1950.55 };
+            double[] sortedCopyRevenue = new double[12];
+            revenue.CopyTo(sortedCopyRevenue);
+
+            for (int i = 0; i < revenue.Length; i++) {
+                Console.WriteLine("The revenue of month "+(i+1) +" is: "+ revenue[i]);
+
+            }
+            Console.WriteLine("Sorted revenues: ");
+            Array.Sort(sortedCopyRevenue);
+            Array.ForEach(sortedCopyRevenue, x => Console.Write(x+" | "));
+            Console.WriteLine("\nThe best month's revenue is: "+ sortedCopyRevenue[sortedCopyRevenue.Length-1]+" in December");
+            Console.WriteLine("The worst month's revenue is: "+ sortedCopyRevenue[0]+" in January");
+
+            double average = revenue.Sum() / revenue.Length;
+            Console.WriteLine("The average monthly revenue is: " + Math.Round(average,3));
+        }
         static void Main(string[] args)
         {
             string service;
@@ -135,7 +155,7 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("5. Classroom Grade Report ");
             Console.WriteLine("6. Warehouse Inventory Check");
             Console.WriteLine("7. Library Book Shelf Scanner ");
-            Console.WriteLine("8. ");
+            Console.WriteLine("8. Sales Performance Analyzer");
             Console.WriteLine("9. ");
             Console.WriteLine("10. ");
             Console.WriteLine("q. Quit ");
@@ -174,6 +194,10 @@ namespace arraysPracticeTaskSheet
                         libraryBookShelfScanner();
                         break;
 
+                    case "8":
+                        salesPerformanceAnalyzer();
+                        break;
+
                 }//switch
                 Console.WriteLine();
                 Console.WriteLine("The cases: ");
@@ -184,7 +208,7 @@ namespace arraysPracticeTaskSheet
                 Console.WriteLine("5. Classroom Grade Report  ");
                 Console.WriteLine("6. Warehouse Inventory Check");
                 Console.WriteLine("7. Library Book Shelf Scanner");
-                Console.WriteLine("8. ");
+                Console.WriteLine("8. Sales Performance Analyzer");
                 Console.WriteLine("9. ");
                 Console.WriteLine("10. ");
                 Console.WriteLine("q. Quit ");
