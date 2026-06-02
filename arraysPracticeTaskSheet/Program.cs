@@ -1,4 +1,6 @@
-﻿namespace arraysPracticeTaskSheet
+﻿using System.Diagnostics;
+
+namespace arraysPracticeTaskSheet
 {
     internal class Program
     {
@@ -67,6 +69,17 @@
             }
             Console.WriteLine();
         }
+
+        public static void classroomGradeReport()
+        {
+            int[] grades = {69, 71,55,80,90,99,50,87,98,93 };
+            Array.Sort(grades);
+            Array.Reverse(grades);
+
+            for (int i = 0; i < grades.Length; i++) {
+                Console.WriteLine("Rank " + (i + 1) + ": " + grades[i]);
+            }
+        }
         static void Main(string[] args)
         {
             string service;
@@ -76,7 +89,7 @@
             Console.WriteLine("2. Student Score Board ");
             Console.WriteLine("3. Product Price Finder ");
             Console.WriteLine("4. Race Finish Times ");
-            Console.WriteLine("5. ");
+            Console.WriteLine("5. Classroom Grade Report ");
             Console.WriteLine("6. ");
             Console.WriteLine("7. ");
             Console.WriteLine("8. ");
@@ -106,6 +119,13 @@
                         raceFinishTimes();
                         break;
 
+                    case "5":
+                        classroomGradeReport();
+                        break;
+
+                    case "6":
+                        break;
+
                 }//switch
                 Console.WriteLine();
                 Console.WriteLine("The cases: ");
@@ -113,7 +133,7 @@
                 Console.WriteLine("2. Student Score Board ");
                 Console.WriteLine("3. Product Price Finder ");
                 Console.WriteLine("4. Race Finish Times");
-                Console.WriteLine("5. ");
+                Console.WriteLine("5. Classroom Grade Report  ");
                 Console.WriteLine("6. ");
                 Console.WriteLine("7. ");
                 Console.WriteLine("8. ");
