@@ -88,7 +88,7 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("The total of quantities: " + total);
             Console.WriteLine("The Average: " + (total/ quantities.Length));
             Console.WriteLine();
-            Console.WriteLine("Enter the quantity you want: ");
+            Console.Write("Enter the quantity you want: ");
             int userQuantity = int.Parse(Console.ReadLine());
             int quantity = Array.IndexOf(quantities, userQuantity);
 
@@ -99,6 +99,28 @@ namespace arraysPracticeTaskSheet
             else {
                 Console.WriteLine("Quantity is found in slot number "+ (quantity+1));
 
+            }
+        }
+
+        public static void libraryBookShelfScanner(){
+            int[] copies = {50,0,25,0,8,10,15,22,45 };
+            Console.WriteLine("Number of copies for each book: ");
+            foreach (int i in copies) {
+                Console.Write(i+" ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("copies in descending order: ");
+            Array.Sort(copies);
+            foreach (int i in copies)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nThe highest number of copies is: "+ copies[copies.Length-1] + " For the book number "+(copies.Length));
+
+            for (int i =0; i< copies.Length; i++) {
+                if (copies[i] == 0) {
+                    Console.WriteLine("Notification: Book number "+(i+1)+" has zero copies");
+                }
             }
         }
         static void Main(string[] args)
@@ -112,7 +134,7 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("4. Race Finish Times ");
             Console.WriteLine("5. Classroom Grade Report ");
             Console.WriteLine("6. Warehouse Inventory Check");
-            Console.WriteLine("7. ");
+            Console.WriteLine("7. Library Book Shelf Scanner ");
             Console.WriteLine("8. ");
             Console.WriteLine("9. ");
             Console.WriteLine("10. ");
@@ -148,6 +170,10 @@ namespace arraysPracticeTaskSheet
                         warehouseInventoryCheck();
                         break;
 
+                    case "7":
+                        libraryBookShelfScanner();
+                        break;
+
                 }//switch
                 Console.WriteLine();
                 Console.WriteLine("The cases: ");
@@ -157,7 +183,7 @@ namespace arraysPracticeTaskSheet
                 Console.WriteLine("4. Race Finish Times");
                 Console.WriteLine("5. Classroom Grade Report  ");
                 Console.WriteLine("6. Warehouse Inventory Check");
-                Console.WriteLine("7. ");
+                Console.WriteLine("7. Library Book Shelf Scanner");
                 Console.WriteLine("8. ");
                 Console.WriteLine("9. ");
                 Console.WriteLine("10. ");
