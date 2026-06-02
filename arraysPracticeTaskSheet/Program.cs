@@ -80,6 +80,27 @@ namespace arraysPracticeTaskSheet
                 Console.WriteLine("Rank " + (i + 1) + ": " + grades[i]);
             }
         }
+
+        public static void warehouseInventoryCheck()
+        {
+            int[] quantities = { 5, 20, 100, 40, 55, 88, 500, 78 };
+            int total = quantities.Sum();
+            Console.WriteLine("The total of quantities: " + total);
+            Console.WriteLine("The Average: " + (total/ quantities.Length));
+            Console.WriteLine();
+            Console.WriteLine("Enter the quantity you want: ");
+            int userQuantity = int.Parse(Console.ReadLine());
+            int quantity = Array.IndexOf(quantities, userQuantity);
+
+            if (quantity == -1)
+            {
+                Console.WriteLine("Quantity not found");
+            }
+            else {
+                Console.WriteLine("Quantity is found in slot number "+ (quantity+1));
+
+            }
+        }
         static void Main(string[] args)
         {
             string service;
@@ -90,7 +111,7 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("3. Product Price Finder ");
             Console.WriteLine("4. Race Finish Times ");
             Console.WriteLine("5. Classroom Grade Report ");
-            Console.WriteLine("6. ");
+            Console.WriteLine("6. Warehouse Inventory Check");
             Console.WriteLine("7. ");
             Console.WriteLine("8. ");
             Console.WriteLine("9. ");
@@ -124,6 +145,7 @@ namespace arraysPracticeTaskSheet
                         break;
 
                     case "6":
+                        warehouseInventoryCheck();
                         break;
 
                 }//switch
@@ -134,7 +156,7 @@ namespace arraysPracticeTaskSheet
                 Console.WriteLine("3. Product Price Finder ");
                 Console.WriteLine("4. Race Finish Times");
                 Console.WriteLine("5. Classroom Grade Report  ");
-                Console.WriteLine("6. ");
+                Console.WriteLine("6. Warehouse Inventory Check");
                 Console.WriteLine("7. ");
                 Console.WriteLine("8. ");
                 Console.WriteLine("9. ");
