@@ -113,22 +113,22 @@
 
         public static void libraryBookShelfScanner()
         {
-            int[] copies = { 50, 0, 25, 0, 8, 10, 15, 22, 45 };
+            List<int> copies = new List<int> { 50, 0, 25, 0, 8, 10, 15, 22, 45 };
             Console.WriteLine("Number of copies for each book: ");
             foreach (int i in copies)
             {
                 Console.Write(i + " ");
             }
             Console.WriteLine();
-            Console.WriteLine("copies in descending order: ");
-            Array.Sort(copies);
+            Console.WriteLine("copies in ascending order: ");
+            copies.Sort();
             foreach (int i in copies)
             {
                 Console.Write(i + " ");
             }
-            Console.WriteLine("\nThe highest number of copies is: " + copies[copies.Length - 1] + " For the book number " + (copies.Length));
+            Console.WriteLine("\nThe highest number of copies is: " + copies[copies.Count - 1] + " For the book number " + (copies.Count));
 
-            for (int i = 0; i < copies.Length; i++)
+            for (int i = 0; i < copies.Count; i++)
             {
                 if (copies[i] == 0)
                 {
