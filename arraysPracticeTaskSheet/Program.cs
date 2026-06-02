@@ -50,9 +50,22 @@
             }
         }
 
-        public static void raceFinishTimes() { 
-        
-        
+        public static void raceFinishTimes() {
+            int[] finishTimes = { 4, 5, 8, 9, 15, 10, 11, 12 };
+            Console.WriteLine("Finish times for "+ finishTimes.Length+" runners: ");
+            foreach (int i in finishTimes) {
+                Console.Write(i+" sec, ");
+            }
+            Console.WriteLine();
+
+            Array.Sort(finishTimes);
+            Console.WriteLine("sorted finish times: ");
+            Console.WriteLine("Finish times for " + finishTimes.Length + " runners: ");
+            foreach (int i in finishTimes)
+            {
+                Console.Write(i + " sec, ");
+            }
+            Console.WriteLine();
         }
         static void Main(string[] args)
         {
@@ -90,7 +103,7 @@
                         break;
 
                     case "4":
-
+                        raceFinishTimes();
                         break;
 
                 }//switch
