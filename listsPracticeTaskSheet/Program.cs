@@ -139,23 +139,22 @@
 
         public static void salesPerformanceAnalyzer()
         {
-            double[] revenue = { 1200.50, 1350.75, 1420.00, 1600.25, 1750.80, 1900.60,
-                                 2100.40, 2200.90, 2000.00, 1850.30, 1700.10, 1950.55 };
-            double[] sortedCopyRevenue = new double[12];
-            revenue.CopyTo(sortedCopyRevenue);
+            List<double> revenue = new List<double>{ 1200.50, 1350.75, 1420.00, 1600.25, 1750.80, 1900.60,
+                                                     2100.40, 2200.90, 2000.00, 1850.30, 1700.10, 1950.55 };
+            List<double> sortedCopyRevenue = new List<double>(revenue);
 
-            for (int i = 0; i < revenue.Length; i++)
+            for (int i = 0; i < revenue.Count; i++)
             {
                 Console.WriteLine("The revenue of month " + (i + 1) + " is: " + revenue[i]);
 
             }
             Console.WriteLine("Sorted revenues: ");
-            Array.Sort(sortedCopyRevenue);
-            Array.ForEach(sortedCopyRevenue, x => Console.Write(x + " | "));
-            Console.WriteLine("\nThe best month's revenue is: " + sortedCopyRevenue[sortedCopyRevenue.Length - 1] + " in December");
+            sortedCopyRevenue.Sort();
+            sortedCopyRevenue.ForEach(x => Console.Write(x + " | "));
+            Console.WriteLine("\nThe best month's revenue is: " + sortedCopyRevenue[sortedCopyRevenue.Count - 1] + " in December");
             Console.WriteLine("The worst month's revenue is: " + sortedCopyRevenue[0] + " in January");
 
-            double average = revenue.Sum() / revenue.Length;
+            double average = revenue.Sum() / revenue.Count;
             Console.WriteLine("The average monthly revenue is: " + Math.Round(average, 3));
         }
 
