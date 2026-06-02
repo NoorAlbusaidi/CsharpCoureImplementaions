@@ -181,6 +181,46 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("Total Seats: "+seats.Length);
         }
 
+        public static void hospitalPatientPriorityQueue() {
+            int patients = 0;
+            int[] severity = { 3, 7, 1, 9, 5, 2, 8, 6, 4, 10,
+                               7, 3, 6, 2, 9, 1, 5, 8, 4, 10 };
+            int[] sortedSeverity = new int[severity.Length];
+
+            for (int i = 0; i < severity.Length; i++) {
+                sortedSeverity[i] = severity[i];
+            }
+            Array.Sort(sortedSeverity);
+            Array.Reverse (sortedSeverity);
+
+            for (int i = 0; i < sortedSeverity.Length; i++)
+            {
+                Console.WriteLine($"Patient {i+1} : The severity level: {sortedSeverity[i]}");
+            }
+
+            Array.Reverse(sortedSeverity);
+            int mid1 = sortedSeverity.Length / 2 - 1;
+            int mid2 = sortedSeverity.Length / 2;
+            
+            double median = (sortedSeverity[mid1] + sortedSeverity[mid2]) / 2.0;
+            Console.WriteLine();
+            Console.WriteLine("Median: "+median);
+            Console.WriteLine();
+
+            for (int i = 0; i < sortedSeverity.Length; i++) {
+                if (sortedSeverity[i] <= 3) {
+                    patients++;
+                }
+            
+            }
+            Console.WriteLine(patients+ " patients have a severity score of 3 or below (critical cases). ");
+
+            Console.WriteLine();
+            int severityScoreTarget = 5;
+            int severityIndex = Array.IndexOf(sortedSeverity, severityScoreTarget);
+            Console.WriteLine("The first patient with severity score = "+ severityScoreTarget+" at position: "+ severityIndex);
+
+        }
         static void Main(string[] args)
         {
             string service;
@@ -195,7 +235,7 @@ namespace arraysPracticeTaskSheet
             Console.WriteLine("7. Library Book Shelf Scanner ");
             Console.WriteLine("8. Sales Performance Analyzer");
             Console.WriteLine("9. Flight Seat Allocation Display");
-            Console.WriteLine("10. ");
+            Console.WriteLine("10.Hospital Patient Priority Queue");
             Console.WriteLine("q. Quit ");
             Console.WriteLine();
 
@@ -240,6 +280,14 @@ namespace arraysPracticeTaskSheet
                         flightSeatAllocationDisplay();
                         break;
 
+                    case "10":
+                        hospitalPatientPriorityQueue();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice");
+                        break;
+
                 }//switch
                 Console.WriteLine();
                 Console.WriteLine("The cases: ");
@@ -252,7 +300,7 @@ namespace arraysPracticeTaskSheet
                 Console.WriteLine("7. Library Book Shelf Scanner");
                 Console.WriteLine("8. Sales Performance Analyzer");
                 Console.WriteLine("9. Flight Seat Allocation Display");
-                Console.WriteLine("10. ");
+                Console.WriteLine("10.Hospital Patient Priority Queue");
                 Console.WriteLine("q. Quit ");
                 Console.WriteLine();
                 Console.Write("Number of the case: ");
