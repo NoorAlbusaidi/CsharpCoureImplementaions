@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.Serialization.Formatters;
 
 namespace listPracticeTaskSheet
 {
@@ -130,11 +131,99 @@ namespace listPracticeTaskSheet
 
             Console.WriteLine("\nWe have "+ assignedRooms.Count +" rooms are assigned to housekeeping team");
         }
+
+        public static void hotelBookingConflictResolver() {
+            List<int> standardBookings = new List<int> { 101, 102, 103, 104, 105, 106 };
+            List<int> suiteBookings = new List<int> { 103, 104, 105, 201, 202 };
+            List<int> masterBookings = new List<int>();
+
+            Console.WriteLine("standard Bookings:");
+            for (int i = 0; i < standardBookings.Count; i++)
+            {
+                Console.WriteLine($"Reservation {i + 1}: {standardBookings[i]}");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Suite Bookings:");
+            for (int i = 0; i < suiteBookings.Count; i++)
+            {
+                Console.WriteLine($"Reservation {i + 1}: {suiteBookings[i]}");
+            }
+
+            masterBookings.AddRange(standardBookings);
+            masterBookings.AddRange(suiteBookings);
+            int element;
+            for (int i = 0; i < masterBookings.Count; i++) {
+                element = masterBookings[i];
+                for (int k = i+1; k< masterBookings.Count; k++) {
+                    if (masterBookings[k] == element) {
+                        masterBookings.Remove(masterBookings[k]);
+                        i--;
+                    }
+            
+                }
+            }
+
+            masterBookings.Sort();
+            Console.WriteLine();
+            Console.WriteLine("master Bookings:");
+            for (int i = 0; i < masterBookings.Count; i++)
+            {
+                Console.WriteLine($"Reservation {i + 1}: {masterBookings[i]}");
+            }
+
+            int id1 = 104;
+            int id2 = 300;
+            Console.WriteLine();
+            if (masterBookings.Contains(id1))
+            {
+                Console.WriteLine($"Booking ID {id1} exists in the master list.");
+            }
+            else
+            {
+                Console.WriteLine($"Booking ID {id1} does NOT exist.");
+            }
+
+            if (masterBookings.Contains(id2))
+            {
+                Console.WriteLine($"Booking ID {id2} exists in the master list.");
+            }
+            else
+            {
+                Console.WriteLine($"Booking ID {id2} does NOT exist.");
+            }
+
+            
+            int targetId = 104;
+
+            int index = masterBookings.IndexOf(targetId);
+
+            if (index != -1)
+            {
+                Console.WriteLine($"Booking ID {targetId} found at index: {index}");
+            }
+            else
+            {
+                Console.WriteLine($"Booking ID {targetId} not found.");
+            }
+
+            masterBookings.RemoveRange(1, 3);
+            Console.WriteLine();
+            Console.WriteLine("Final master Bookings:");
+            for (int i = 0; i < masterBookings.Count; i++)
+            {
+                Console.WriteLine($"Reservation {i + 1}: {masterBookings[i]}");
+            }
+
+            Console.WriteLine("We have "+ masterBookings.Count+ " bookings");
+
+        }
         static void Main(string[] args)
         {
             //roomServiceMenu();
             //guestCheckInQueue();
-            housekeepingFloorAssignment();
+            //housekeepingFloorAssignment();
+            hotelBookingConflictResolver();
 
 
         }
