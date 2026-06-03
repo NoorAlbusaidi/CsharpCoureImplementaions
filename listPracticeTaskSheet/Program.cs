@@ -94,14 +94,47 @@ namespace listPracticeTaskSheet
             Console.WriteLine();
         }
 
-        public static void housekeepingFloorAssignment() { 
-        
-        
+        public static void housekeepingFloorAssignment() {
+            List<int> assignedRooms = new List<int> {305, 101, 220, 410, 150, 275};
+            Console.WriteLine("Assigned rooms list:");
+            for (int i = 0; i < assignedRooms.Count; i++)
+            {
+                Console.WriteLine($"Room {i + 1}: {assignedRooms[i]}");
+            }
+
+            assignedRooms.Add(500);
+            assignedRooms.Add(120);
+
+            Console.WriteLine("\nUpdated rooms list:");
+            for (int i = 0; i < assignedRooms.Count; i++)
+            {
+                Console.WriteLine($"Room {i + 1}: {assignedRooms[i]}");
+            }
+
+            Console.WriteLine("\nRoom number 305 is cleaned");
+            assignedRooms.Remove(305);
+
+            assignedRooms.Sort();
+            Console.WriteLine("\nSorted assigned rooms list:");
+            for (int i = 0; i < assignedRooms.Count; i++)
+            {
+                Console.WriteLine($"Room {i + 1}: {assignedRooms[i]}");
+            }
+
+            assignedRooms.Insert(2, 999); // dirty room number
+            Console.WriteLine("\nThe final assigned rooms list:");
+            for (int i = 0; i < assignedRooms.Count; i++)
+            {
+                Console.WriteLine($"Room {i + 1}: {assignedRooms[i]}");
+            }
+
+            Console.WriteLine("\nWe have "+ assignedRooms.Count +" rooms are assigned to housekeeping team");
         }
         static void Main(string[] args)
         {
             //roomServiceMenu();
-           //guestCheckInQueue();
+            //guestCheckInQueue();
+            housekeepingFloorAssignment();
 
 
         }
