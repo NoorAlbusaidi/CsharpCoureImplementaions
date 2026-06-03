@@ -220,10 +220,62 @@ namespace listPracticeTaskSheet
         }
         static void Main(string[] args)
         {
-            //roomServiceMenu();
-            //guestCheckInQueue();
-            //housekeepingFloorAssignment();
-            hotelBookingConflictResolver();
+            string service;
+
+            Console.WriteLine("The cases: ");
+            Console.WriteLine("1. Room Service Menu");
+            Console.WriteLine("2. Guest Check-In Queue");
+            Console.WriteLine("3. Housekeeping Floor Assignment");
+            Console.WriteLine("4. Hotel Booking Conflict Resolver");
+            Console.WriteLine("q. Quit ");
+            Console.WriteLine();
+
+            Console.Write("Number of the case: ");
+            service = Console.ReadLine();
+            Console.WriteLine();
+            while (service.ToLower() != "q")
+            {
+                switch (service)
+                {
+                    case "1":
+                        roomServiceMenu();
+                        break;
+
+                    case "2":
+                        guestCheckInQueue();
+                        break;
+
+                    case "3":
+                        housekeepingFloorAssignment();
+                        break;
+
+                    case "4":
+                        hotelBookingConflictResolver();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice");
+                        break;
+
+                }//switch
+
+                Console.WriteLine();
+                Console.WriteLine("The cases: ");
+                Console.WriteLine("1. Room Service Menu");
+                Console.WriteLine("2. Guest Check-In Queue");
+                Console.WriteLine("3. Housekeeping Floor Assignment");
+                Console.WriteLine("4. Hotel Booking Conflict Resolver");
+                Console.WriteLine("q. Quit ");
+                Console.WriteLine();
+
+                Console.Write("Number of the case: ");
+                service = Console.ReadLine();
+                Console.WriteLine();
+            }//while (service.ToLower() != "q")
+            
+            
+            
+           
 
 
         }
