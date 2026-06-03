@@ -1,4 +1,6 @@
-﻿namespace listPracticeTaskSheet
+﻿using System.Drawing;
+
+namespace listPracticeTaskSheet
 {
     internal class Program
     {
@@ -75,11 +77,32 @@
 
             }
             Console.WriteLine($"we are done with {guestCount} guests");
+
+            Console.Write("Enter the guest name: ");
+            string guestName = Console.ReadLine();
+            guestName = guestName.ToLower();
+            checkInQueue = checkInQueue.Select(item => item.ToLower()).ToList();
+            if (checkInQueue.Contains(guestName)) {
+                // to can know the place of the guest in the queue
+                int guestPos = checkInQueue.IndexOf(guestName);
+                Console.Write("The guest is still waiting in turn "+ (guestPos+1));
+            }
+            else Console.Write("The guest is done with check-in process");
+
+            Console.WriteLine("\n");
+            Console.Write(checkInQueue.Count + " guests are waiting in the queue");
+            Console.WriteLine();
+        }
+
+        public static void housekeepingFloorAssignment() { 
+        
+        
         }
         static void Main(string[] args)
         {
             //roomServiceMenu();
-            guestCheckInQueue();
+           //guestCheckInQueue();
+
 
         }
     }
