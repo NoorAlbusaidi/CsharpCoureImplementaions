@@ -2,5 +2,6 @@
   <Project Path="arraysPracticeTaskSheet/arraysPracticeTaskSheet.csproj" Id="9ef74b97-31fb-4ddc-9955-522c17d3f18a" />
   <Project Path="hotelManagementSystem/hotelManagementSystem.csproj" />
   <Project Path="libraryManagementSystem/libraryManagementSystem.csproj" Id="9e4e41f9-6592-42b8-84a3-1846f63ebd07" />
+  <Project Path="listPracticeTaskSheet/listPracticeTaskSheet.csproj" Id="e58cb6bc-628d-4d1b-949b-0e9b1fbb2752" />
   <Project Path="listsPracticeTaskSheet/listsPracticeTaskSheet.csproj" Id="481f9771-4f32-4a1b-b3fc-1f7b1d1e916b" />
 </Solution>

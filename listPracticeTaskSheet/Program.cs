@@ -43,10 +43,43 @@
 
             Console.WriteLine("We have "+ menuItems.Count + " dishs in our menue.");
         }
+        public static void guestCheckInQueue() {
+            List<string> checkInQueue = new List<string> {"Alice","Bob","Ahmed","Mohammed","Sara"};
+            // list to check if the guest is done with check in process or not
+            List<bool> state = new List<bool> { true,true, false, false, false};
+            for (int i = 0; i < checkInQueue.Count; i++) {
+                Console.WriteLine($"Guest {i + 1}: {checkInQueue[i]}");
+            
+            }
+
+            Console.WriteLine();
+            int guestCount = 0;
+            for (int i = 0; i < state.Count; i++)
+            {
+                if (state[i] == true) {
+                    
+                    guestCount++;
+                    checkInQueue.Remove(checkInQueue[i]);
+                    state.Remove(state[i]);
+                    // go one step back before the 2 lists get updated the index will be reduced by one in every removing process
+                    i--;
+                    Console.WriteLine("Updated Guests List: ");
+                    // to print the guests list again after each removing process
+                    for (int k = 0; k < checkInQueue.Count; k++) {
+                        Console.WriteLine($"Guest {k + 1}: {checkInQueue[k]}");
+                    }
+                    Console.WriteLine();
+
+                }
+                
+
+            }
+            Console.WriteLine($"we are done with {guestCount} guests");
+        }
         static void Main(string[] args)
         {
-            roomServiceMenu();
-
+            //roomServiceMenu();
+            guestCheckInQueue();
 
         }
     }
