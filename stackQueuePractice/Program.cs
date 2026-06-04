@@ -175,6 +175,86 @@ namespace stackQueuePractice
 
         }
 
+        public static void hospitalEmergencyRoomTriage() {
+            Queue<string> triageQueue = new Queue<string>();
+            Queue<string> tempQueue = new Queue<string>();
+            string removedName;
+
+            triageQueue.Enqueue("Ali");
+            triageQueue.Enqueue("Sara");
+            triageQueue.Enqueue("Omar");
+            triageQueue.Enqueue("Lina");
+            triageQueue.Enqueue("Hassan");
+            triageQueue.Enqueue("Mariam");
+            triageQueue.Enqueue("Yousef");
+            triageQueue.Enqueue("Noura");
+
+            int i = 0;
+            foreach (string patient in triageQueue) {
+                i++;
+                Console.WriteLine("Patient " + i + " : "+patient);
+            }
+
+            Console.WriteLine("\nThe next patient is : " + triageQueue.Peek());
+            string patName;
+            Console.WriteLine();
+            for (int k = 1; k < 4; k++) {
+                patName = triageQueue.Dequeue();
+                Console.WriteLine(patName+" is done");
+
+            }
+
+            Console.WriteLine("\nThe remaining patients: ");
+            foreach (string pat in triageQueue)
+            {
+
+                Console.WriteLine("Patient : " + pat);
+            }
+
+            string targetName = "Mariam";
+            if (triageQueue.Contains(targetName))
+            {
+                while (triageQueue.Count != 0)
+                {
+                    removedName = triageQueue.Dequeue();
+                    if (targetName == removedName)
+                    {
+                        Console.WriteLine("\nRemoved patient is: " + removedName);
+                        break;
+                    }//if
+                    else
+                    {
+
+                        tempQueue.Enqueue(removedName);
+                    }//else
+                }//while
+            }//if
+
+            Console.WriteLine("\nRemaining patients after removing : "+ targetName);
+            foreach (string name in triageQueue)
+            {
+                Console.WriteLine(name);
+            }
+
+            Console.WriteLine("\nThe whole patients except the removed one:");
+
+            while (triageQueue.Count > 0)
+            {
+                tempQueue.Enqueue(triageQueue.Dequeue());
+            }
+
+            //to keep the original queue order
+            while (tempQueue.Count > 0)
+            {
+                triageQueue.Enqueue(tempQueue.Dequeue());
+            }
+
+            foreach (string k in triageQueue)
+            {
+                Console.WriteLine(k);
+            }
+
+        }
 
 
 
@@ -183,6 +263,7 @@ namespace stackQueuePractice
             //browserHistoryTracker();
             //hotelCheckInQueue();
             //textEditorUndoSystem();
+            hospitalEmergencyRoomTriage();
         }
     }
 }
