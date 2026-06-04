@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.ComponentModel.Design;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 namespace stackQueuePractice
@@ -254,6 +256,107 @@ namespace stackQueuePractice
                 Console.WriteLine(k);
             }
 
+            Console.WriteLine("\n"+ triageQueue.Count+" patients are waiting");
+
+        }
+
+        public static void parenthesisValidator() {
+            Stack<char> bracketStack = new Stack<char>();
+            char checkedParan;
+            string opening = "([{";
+            string closing = ")]}";
+            bool hasClosing;
+            bool hasOpening;
+
+            // Fully balanced
+            string balanced = "{hello[world()]}";
+
+            // Unbalanced (mismatched type)
+            string mismatched = "{[(])}";
+            string noBrack = "aaa";
+
+
+            // Unbalanced (unclosed bracket)
+            string unclosed = "{[(";
+            List<string> inputs = new List<string> { balanced,mismatched,unclosed, noBrack};
+            for (int i = 0; i < inputs.Count; i++)
+            {
+                if (!inputs[i].Contains("(") && !inputs[i].Contains("[") && !inputs[i].Contains("{") && !inputs[i].Contains(")") && !inputs[i].Contains("]") && !inputs[i].Contains("}")) {
+                    Console.WriteLine("input has no barackets ");
+                    break;
+                }
+                foreach (char ch in inputs[i])
+                {
+                    if (ch == '{' || ch == '(' || ch == '[')
+                    {
+                        bracketStack.Push(ch);
+                    }
+                    else if (ch == '}' || ch == ')' || ch == ']')
+                    {
+                        checkedParan = bracketStack.Peek();
+                        if (ch == '}')
+                        {
+                            if (checkedParan == '{')
+                            {
+                                bracketStack.Pop();
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid and unbalanced input ");
+                                break;
+                            }
+
+                        }
+                        else if (ch == ')')
+                        {
+                            if (checkedParan == '(')
+                            {
+                                bracketStack.Pop();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid and unbalanced input ");
+                                break;
+                            }
+
+                        }
+
+                        else if (ch == ']')
+                        {
+                            if (checkedParan == '[')
+                            {
+                                bracketStack.Pop();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid and unbalanced input ");
+                                break;
+                            }
+
+                        }
+
+                    }
+
+                }//foreach
+
+                if (bracketStack.Count == 0)
+                {
+                    Console.WriteLine("valid and balanced input");
+                }
+                // if only has opening brackets
+                //Any(): At least one matches(Does at least ONE element match this condition?)
+                //once it find the match will return true and stop
+                hasOpening = inputs[i].Any(c => opening.Contains(c)); //true
+                hasClosing = inputs[i].Any(c => closing.Contains(c)); //false
+                if (hasOpening && !hasClosing)
+                {
+                    Console.WriteLine("Contains only opening brackets (no closing brackets)");
+                }
+
+                //clear the stack to move to the next input
+                bracketStack.Clear();
+            }//for
         }
 
 
@@ -263,7 +366,8 @@ namespace stackQueuePractice
             //browserHistoryTracker();
             //hotelCheckInQueue();
             //textEditorUndoSystem();
-            hospitalEmergencyRoomTriage();
+            //hospitalEmergencyRoomTriage();
+            parenthesisValidator();
         }
     }
 }
