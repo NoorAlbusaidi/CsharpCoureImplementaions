@@ -359,6 +359,57 @@ namespace stackQueuePractice
             }//for
         }
 
+        public static void printSpoolerwithPriority() {
+            Queue<string> spooler = new Queue<string>();
+            Queue<string> tempQueue = new Queue<string>();
+
+            spooler.Enqueue("Report:45");
+            spooler.Enqueue("Invoice:12");
+            spooler.Enqueue("Manual:78");     // >50
+            spooler.Enqueue("Summary:30");
+            spooler.Enqueue("Blueprint:120"); // >50
+            spooler.Enqueue("Notes:15");
+            spooler.Enqueue("Thesis:65");     // >50
+            spooler.Enqueue("Receipt:5");
+
+            int position = 1;
+            Console.WriteLine("Original Queue:");
+            foreach (string job in spooler)
+            {
+                Console.WriteLine($"Position {position}: {job}");
+                position++;
+            }
+            int count = spooler.Count;
+            for (int i = 0; i < count; i++)
+            {
+                string job = spooler.Dequeue();
+
+                // split it into 2 by : and check the pages#
+                int pages = int.Parse(job.Split(':')[1]);
+
+                if (pages > 50)
+                {
+
+                    // Move to back
+                    spooler.Enqueue(job);
+                    
+                }
+                else if(pages<=50) {
+                    tempQueue.Enqueue(job);
+                    
+                }
+            }
+            int size = spooler.Count;
+            for (int i = 0; i < size; i++) {
+                tempQueue.Enqueue(spooler.Dequeue());
+            }
+
+            Console.WriteLine("\nJobs after reordering:");
+            foreach (string item in tempQueue)
+            {
+                Console.WriteLine(item);              
+            }
+        }
 
 
         static void Main(string[] args)
@@ -367,7 +418,8 @@ namespace stackQueuePractice
             //hotelCheckInQueue();
             //textEditorUndoSystem();
             //hospitalEmergencyRoomTriage();
-            parenthesisValidator();
+            //parenthesisValidator();
+            printSpoolerwithPriority();
         }
     }
 }
