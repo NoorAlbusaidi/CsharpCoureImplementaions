@@ -92,7 +92,88 @@ namespace stackQueuePractice
             Console.WriteLine("\n"+ checkInQueue.Count+" guests are waiting");
         }
 
-        //public static void 
+        public static void textEditorUndoSystem() {
+            Stack<string> undoStack = new Stack<string>();
+            Stack<string> tempStack = new Stack<string>();
+            string removedAction;
+
+            undoStack.Push("Typed: Hello");
+            undoStack.Push("Typed: World");
+            undoStack.Push("Deleted: World");
+            undoStack.Push("Typed: welcome");
+            undoStack.Push("Formatted: Bold");
+            undoStack.Push("Inserted: Image");
+            undoStack.Push("Typed: End");
+
+            Console.WriteLine("Users actions:");
+            foreach (string action in undoStack)
+            {
+                Console.WriteLine(action);
+            }
+
+            if (undoStack.Count > 0)
+            {
+                
+                Console.WriteLine("Next action to undo: " + undoStack.Peek());
+            }
+            else Console.WriteLine("Undo stack is empty.");
+
+            Console.WriteLine("\nUndoing last 2 actions:");
+
+            if (undoStack.Count > 0)
+            {
+                Console.WriteLine("Removed action: " + undoStack.Pop());
+            }
+
+            if (undoStack.Count > 0)
+            {
+                Console.WriteLine("Removed action: " + undoStack.Pop());
+            }
+
+            
+            Console.WriteLine("\nRemaining actions:");
+            foreach (string action in undoStack)
+            {
+                Console.WriteLine(action);
+            }
+
+            string targetaction = "Typed: welcome";
+            if (undoStack.Contains(targetaction))
+            {
+                while (undoStack.Count != 0)
+            {
+                    removedAction = undoStack.Pop();
+                    if (removedAction == targetaction)
+                    {
+                        Console.WriteLine("\nRemoved action is: " + removedAction);
+                        break;
+                    }//if
+                    else
+                    {
+                        
+                        tempStack.Push(removedAction);
+                    }//else
+                }//while
+            }//if
+
+            Console.WriteLine("\nRemaining actions after removing the middle action:");
+            foreach (string action in undoStack)
+            {
+                Console.WriteLine(action);
+            }
+
+            Console.WriteLine("\nThe whole actions except the removed one:");
+           
+            while (tempStack.Count > 0)
+            {
+                undoStack.Push(tempStack.Pop());
+            }
+            foreach (string k in undoStack)
+            {
+                Console.WriteLine(k);
+            }
+
+        }
 
 
 
@@ -100,7 +181,8 @@ namespace stackQueuePractice
         static void Main(string[] args)
         {
             //browserHistoryTracker();
-            hotelCheckInQueue();
+            //hotelCheckInQueue();
+            //textEditorUndoSystem();
         }
     }
 }
