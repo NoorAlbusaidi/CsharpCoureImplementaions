@@ -233,6 +233,117 @@ namespace flightManagementSystem
 
         }
 
+        public static void UpdateBooking() {
+            string flight="";
+            int date = 0;
+            string updatedDate = "";
+            Console.Write("Enter Ticket ID: ");
+            string ticketID = Console.ReadLine();
+
+            // Check empty input
+            if (string.IsNullOrWhiteSpace(ticketID))
+            {
+                Console.WriteLine("Error: Ticket ID cannot be empty.");
+                return;
+            }
+            ticketID = ticketID.Trim();
+
+            if (!ticketNumbers.Contains(ticketID))
+            {
+                Console.WriteLine("Error: Ticket ID not found.");
+                return;
+            }
+            else if (cancelledTickets.Contains(ticketID))
+            {
+                Console.WriteLine("This ticket has been cancelled");
+                return;
+            }
+            else if (!bookingRecord.ContainsKey(ticketID))
+            {
+                Console.WriteLine("No booking found for this ticket.");
+                return; 
+            }
+            string value = bookingRecord[ticketID];
+            string[] valParts = value.Split('|');
+            Console.WriteLine("The flight number is: " + valParts[0]);
+            Console.WriteLine("The flight date is: " + valParts[1]);
+
+            Console.WriteLine("\nThe updating menue: ");
+            Console.WriteLine("1. Change flight only\n2. Change date only\n3. Change both\n0. Cancel update");
+            Console.Write("Enter your choice number: ");
+            int userChoice = int.Parse(Console.ReadLine());
+            if (userChoice == 1)
+            {
+                Console.WriteLine("\nThe flights: ");
+                foreach (string fl in flightNumbers) {
+                    Console.WriteLine(fl);
+                }
+                Console.Write("\nenter your updated flight: ");
+                flight = Console.ReadLine();
+                flight = flight.ToUpper();
+                bookingRecord[ticketID] = flight+"|"+ valParts[1];
+                Console.Write("\nYour updated flight is: "+ bookingRecord[ticketID]);
+
+            }
+            else if (userChoice == 2)
+            {
+                Console.WriteLine("\nThe available dates: ");
+                int i = 0;
+                foreach (DateTime da in availableDates)
+                {
+                    i++;
+                    Console.WriteLine(i+": "+da);
+                    
+                }
+                Console.Write("\nEnter the number of your updated date: ");
+                date = int.Parse(Console.ReadLine());
+                updatedDate = availableDates[date-1].ToString();
+                bookingRecord[ticketID] = valParts[0] + "|" + updatedDate;
+                Console.Write("\nYour updated date is: " + bookingRecord[ticketID]);
+            }
+            else if (userChoice == 3)
+            {
+                Console.WriteLine("\nThe flights: ");
+                foreach (string fl in flightNumbers)
+                {
+                    Console.WriteLine(fl);
+                }
+                Console.Write("\nenter your updated flight: ");
+                flight = Console.ReadLine();
+                flight = flight.ToUpper();
+
+                Console.WriteLine("\nThe available dates: ");
+                int i = 0;
+                foreach (DateTime da in availableDates)
+                {
+                    i++;
+                    Console.WriteLine(i + ": " + da);
+
+                }
+                Console.Write("\nEnter the number of your updated date: ");
+                date = int.Parse(Console.ReadLine());
+                updatedDate = availableDates[date - 1].ToString();
+                bookingRecord[ticketID] = flight + "|" + updatedDate;
+                Console.Write("\nYour updated date and flight: " + bookingRecord[ticketID]);
+
+
+            }
+            else if (userChoice == 0)
+            {
+                Console.WriteLine("No updates");
+                return;
+            }
+            else {
+                Console.WriteLine("invalid choice. try again");
+                Console.WriteLine("\nThe updating menue: ");
+                Console.WriteLine(" 1. Change flight only\n2. Change date only\n3. Change both\n0. Cancel update");
+                Console.Write("Enter your choice number: ");
+                userChoice = int.Parse(Console.ReadLine());
+            }
+
+        }
+
+
         static void Main(string[] args)
         {
             int choice;
@@ -240,7 +351,7 @@ namespace flightManagementSystem
             Console.WriteLine("========================================\r\nSKY WINGS FLIGHT MANAGEMENT SYSTEM\r\n========================================");
             Console.WriteLine("1. Register New Passenger");
             Console.WriteLine("2. View All Passengers");
-            Console.WriteLine("3. Book a Flight Ticke");
+            Console.WriteLine("3. Book a Flight Ticket");
             Console.WriteLine("4. View Booking Details");
             Console.WriteLine("5. Update a Booking");
             Console.WriteLine("6. Cancel a Ticket");
@@ -275,7 +386,7 @@ namespace flightManagementSystem
                         break;
 
                     case 5:
-                        
+                        UpdateBooking();
                         break;
 
                     case 6:
