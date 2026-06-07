@@ -1,4 +1,6 @@
-﻿namespace flightManagementSystem
+﻿using System.Net.Http.Headers;
+
+namespace flightManagementSystem
 {
     internal class Program
     {
@@ -185,6 +187,51 @@
             Console.WriteLine("Details: "+ ticketID+ " of "+ passName+ ": "  + bookingValue);
         }
 
+        public static void viewBookingDetails() {
+            Console.Write("Enter Ticket ID: ");
+            string ticketID = Console.ReadLine();
+
+            // Check empty input
+            if (string.IsNullOrWhiteSpace(ticketID))
+            {
+                Console.WriteLine("Error: Ticket ID cannot be empty.");
+                return;
+            }
+            ticketID = ticketID.Trim();
+
+            if (!ticketNumbers.Contains(ticketID)) {
+                Console.WriteLine("Error: Ticket ID not found.");
+                return;
+            }
+            Console.WriteLine("Ticket found.");
+            if (ticketNumbers.Count == passengerNames.Count)
+            {
+                int ticketIndex = ticketNumbers.IndexOf(ticketID);
+                string passName = passengerNames[ticketIndex];
+                Console.WriteLine("Passenger name is: " + passName);
+            }
+            else
+            {
+                Console.WriteLine("System Error");
+                return;
+            }
+
+            if (cancelledTickets.Contains(ticketID)) {
+                Console.WriteLine("This ticket has been cancelled");
+                return;
+            }
+            if (bookingRecord.ContainsKey(ticketID))
+            {
+                string value = bookingRecord[ticketID];
+                string[] valParts = value.Split('|');
+                Console.WriteLine("The flight number is: "+ valParts[0]);
+                Console.WriteLine("The flight date is: " + valParts[1]);
+            }
+            else {
+                Console.WriteLine("No booking found for this ticket.");
+            }
+
+        }
 
         static void Main(string[] args)
         {
@@ -224,7 +271,7 @@
                         break;
 
                     case 4:
-                        
+                        viewBookingDetails();
                         break;
 
                     case 5:
