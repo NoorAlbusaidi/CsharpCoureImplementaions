@@ -2,23 +2,11 @@
 {
     internal class Program
     {
-        static List<String> passengerNames = new List<String> {
-            "Ali",
-            "Sara",
-            "Omar",
-            "Laila",
-            "Hassan"
-        };
+        static List<String> passengerNames = new List<String> {"Ali","Sara","Omar","Laila","Hassan"};
 
-        static List<string> ticketNumbers = new List<string>
-{
-            "T101",
-            "T102",
-            "T103",
-            "T104",
-            "T105"
-};
+        static List<string> ticketNumbers = new List<string>{"T001","T002","T003","T004","T005"};
 
+        static List<string> cancelledTickets = new List<string>();
         public static void registerNewPassenger() {
             bool exist = false;
             Console.Write("Enter passenger's full name: ");
@@ -56,6 +44,46 @@
 
 
         }
+
+        public static void viewAllPassengers() {
+            string name;
+            string ticket;
+            string status;
+            if (passengerNames.Count == 0) {
+                Console.WriteLine("No passengers registered yet.");
+                return;
+            }
+
+            Console.WriteLine(
+                                "No.".PadRight(5) +
+                                "| " + "Passenger Name".PadRight(20) +
+                                "| " + "Ticket ID".PadRight(12) +
+                                "| " + "Status"
+            );
+            Console.WriteLine("-------------------------------------------------------------");
+
+            for (int i = 0; i < passengerNames.Count; i++) {
+                name = passengerNames[i];
+                ticket = ticketNumbers[i];
+
+                if (cancelledTickets.Contains(ticket))
+                {
+                    status = "CANCELLED";
+                }
+                else status = "Active";
+
+                Console.WriteLine(
+                                  (i + 1).ToString().PadRight(5) +
+                                  "| " + name.PadRight(20) +
+                                "| " + ticket.PadRight(12) +
+                                 "| " + status
+                );
+
+            }
+
+            Console.WriteLine("The Total passengers: "+passengerNames.Count);
+
+        }
         static void Main(string[] args)
         {
             int choice;
@@ -86,7 +114,7 @@
                         break;
 
                     case 2:
-                        
+                        viewAllPassengers();
                         break;
 
                     case 3:
