@@ -343,7 +343,39 @@ namespace flightManagementSystem
 
         }
 
+        public static void cancelTicket() {
+            Console.Write("Enter Ticket ID: ");
+            string ticketID = Console.ReadLine();
 
+            // Check empty input
+            if (string.IsNullOrWhiteSpace(ticketID))
+            {
+                Console.WriteLine("Error: Ticket ID cannot be empty.");
+                return;
+            }
+            ticketID = ticketID.Trim();
+
+            if (!ticketNumbers.Contains(ticketID))
+            {
+                Console.WriteLine("Error: Ticket ID not found.");
+                return;
+            }
+            else if (cancelledTickets.Contains(ticketID))
+            {
+                Console.WriteLine("This ticket has been cancelled");
+                return;
+            }
+            else if (!bookingRecord.ContainsKey(ticketID))
+            {
+                Console.WriteLine("No booking found for this ticket.");
+                return;
+            }
+            string passName = passengerNames[ticketNumbers.IndexOf(ticketID)];
+
+
+            if (bookingRecord.ContainsKey(ticketID)) { }
+
+        }
         static void Main(string[] args)
         {
             int choice;
@@ -390,7 +422,7 @@ namespace flightManagementSystem
                         break;
 
                     case 6:
-                        
+                        cancelTicket();
                         break;
 
                     case 7:
