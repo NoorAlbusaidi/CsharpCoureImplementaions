@@ -18,6 +18,44 @@
             "T104",
             "T105"
 };
+
+        public static void registerNewPassenger() {
+            bool exist = false;
+            Console.Write("Enter passenger's full name: ");
+            string fullName = Console.ReadLine();
+            fullName = fullName.Trim();
+            // Validation
+            if (string.IsNullOrWhiteSpace(fullName))
+            {
+                Console.WriteLine("Error: Name cannot be empty.");
+                return; // go back to menu
+            }
+
+            for (int i = 0; i < passengerNames.Count; i++) {
+                
+                if (fullName.ToLower() == passengerNames[i].ToLower()) {
+                    exist = true;
+                    break;
+                }
+            }
+            
+            if (exist)
+            {
+                Console.WriteLine("Error: Passenger already exists.");
+                return;
+            }
+            else {
+                passengerNames.Add(fullName);
+                Console.WriteLine("Passenger added successfully.");
+                //"D3" → formats it to 3 digits with leading zeros
+                int nextNumber = ticketNumbers.Count + 1;
+                string ticketID = "TKT-" + nextNumber.ToString("D3");
+                ticketNumbers.Add(ticketID);
+                Console.WriteLine("Passenger added with Ticket ID: " + ticketID);
+            }
+
+
+        }
         static void Main(string[] args)
         {
             int choice;
@@ -44,7 +82,7 @@
                 switch (choice)
                 {
                     case 1:
-                        
+                        registerNewPassenger();
                         break;
 
                     case 2:
