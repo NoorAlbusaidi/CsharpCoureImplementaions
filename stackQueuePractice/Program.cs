@@ -503,15 +503,82 @@ namespace stackQueuePractice
         }
         static void Main(string[] args)
             {
-            //browserHistoryTracker();
-            //hotelCheckInQueue();
-            //textEditorUndoSystem();
-            //hospitalEmergencyRoomTriage();
-            //parenthesisValidator();
-            //printSpoolerwithPriority();
-            //reverseSentence();
-            ticketCounterSimulation();
-            }
+            string service;
+
+            Console.WriteLine("The cases: ");
+            Console.WriteLine("1. Browser History Tracker");
+            Console.WriteLine("2. Hotel Check-In Queue");
+            Console.WriteLine("3. Text Editor Undo System");
+            Console.WriteLine("4. Hospital Emergency Room Triage");
+            Console.WriteLine("5. Parenthesis Validator");
+            Console.WriteLine("6. Print Spooler with Priority Re-Insertion");
+            Console.WriteLine("7. Reverse a Sentence Word by Word");
+            Console.WriteLine("8. Ticket Counter Simulation");
+            Console.WriteLine("q. Quit ");
+            Console.WriteLine();
+
+            Console.Write("Number of the case: ");
+            service = Console.ReadLine();
+            Console.WriteLine();
+            while (service.ToLower() != "q")
+            {
+                switch (service)
+                {
+                    case "1":
+                        browserHistoryTracker();
+                        break;
+
+                    case "2":
+                        hotelCheckInQueue();
+                        break;
+
+                    case "3":
+                        textEditorUndoSystem();
+                        break;
+
+                    case "4":
+                        hospitalEmergencyRoomTriage();
+                        break;
+
+                    case "5":
+                        parenthesisValidator();
+                        break;
+
+                    case "6":
+                        printSpoolerwithPriority();
+                        break;
+
+                    case "7":
+                        reverseSentence();
+                        break;
+
+                    case "8":
+                        ticketCounterSimulation();
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice");
+                        break;
+
+                }//switch
+                
+                Console.WriteLine("\nThe cases: ");
+                Console.WriteLine("1. Browser History Tracker");
+                Console.WriteLine("2. Hotel Check-In Queue");
+                Console.WriteLine("3. Text Editor Undo System");
+                Console.WriteLine("4. Hospital Emergency Room Triage");
+                Console.WriteLine("5. Parenthesis Validator");
+                Console.WriteLine("6. Print Spooler with Priority Re-Insertion");
+                Console.WriteLine("7. Reverse a Sentence Word by Word");
+                Console.WriteLine("8. Ticket Counter Simulation");
+                Console.WriteLine("q. Quit ");
+                Console.WriteLine();
+                Console.Write("Number of the case: ");
+                service = Console.ReadLine();
+                Console.WriteLine();
+            }//while (service.ToLower() != "q")
+    
+        }
         }
     
 }
