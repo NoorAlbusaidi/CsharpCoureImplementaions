@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel.Design;
+using System.Diagnostics.Metrics;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
@@ -21,7 +22,7 @@ namespace stackQueuePractice
             }
 
             string topStack = browserHistory.Peek();
-            Console.WriteLine("\nThe page the user is currently on: "+ topStack);
+            Console.WriteLine("\nThe page the user is currently on: " + topStack);
 
             if (browserHistory.Count > 0) {
                 string firstRemUrl = browserHistory.Pop();
@@ -41,12 +42,12 @@ namespace stackQueuePractice
 
             string targetUrl = "https://example.com/home";
             if (browserHistory.Contains(targetUrl)) {
-                Console.WriteLine("\nURL: "+ targetUrl+" is in the user history");
+                Console.WriteLine("\nURL: " + targetUrl + " is in the user history");
 
             }
             else Console.WriteLine("\nURL: " + targetUrl + " is not in the user history");
 
-            Console.WriteLine("\nUser history contains "+ browserHistory.Count+" URLs");
+            Console.WriteLine("\nUser history contains " + browserHistory.Count + " URLs");
         }
 
         public static void hotelCheckInQueue() {
@@ -58,12 +59,12 @@ namespace stackQueuePractice
             checkInQueue.Enqueue("Charlie");
 
             Console.WriteLine("Waiting guests: ");
-            foreach (string name in checkInQueue) { 
-            Console.WriteLine(name);
-            
+            foreach (string name in checkInQueue) {
+                Console.WriteLine(name);
+
             }
 
-            Console.WriteLine("\nThe next guest is: "+ checkInQueue.Peek());
+            Console.WriteLine("\nThe next guest is: " + checkInQueue.Peek());
 
             if (checkInQueue.Count > 0)
             {
@@ -74,7 +75,7 @@ namespace stackQueuePractice
             {
                 string secSerGuest = checkInQueue.Dequeue();
                 Console.WriteLine("\nThe second served guest: " + secSerGuest);
-                
+
             }
 
             Console.WriteLine("\nThe remaining guests: ");
@@ -86,12 +87,12 @@ namespace stackQueuePractice
 
             string guestName = "Diana";
             if (checkInQueue.Contains(guestName)) {
-                Console.WriteLine("\n"+ guestName+" is still waiting in the queue");
+                Console.WriteLine("\n" + guestName + " is still waiting in the queue");
 
             }
             else Console.WriteLine("\n" + guestName + " is not in the queue");
 
-            Console.WriteLine("\n"+ checkInQueue.Count+" guests are waiting");
+            Console.WriteLine("\n" + checkInQueue.Count + " guests are waiting");
         }
 
         public static void textEditorUndoSystem() {
@@ -115,7 +116,7 @@ namespace stackQueuePractice
 
             if (undoStack.Count > 0)
             {
-                
+
                 Console.WriteLine("Next action to undo: " + undoStack.Peek());
             }
             else Console.WriteLine("Undo stack is empty.");
@@ -132,7 +133,7 @@ namespace stackQueuePractice
                 Console.WriteLine("Removed action: " + undoStack.Pop());
             }
 
-            
+
             Console.WriteLine("\nRemaining actions:");
             foreach (string action in undoStack)
             {
@@ -143,7 +144,7 @@ namespace stackQueuePractice
             if (undoStack.Contains(targetaction))
             {
                 while (undoStack.Count != 0)
-            {
+                {
                     removedAction = undoStack.Pop();
                     if (removedAction == targetaction)
                     {
@@ -152,7 +153,7 @@ namespace stackQueuePractice
                     }//if
                     else
                     {
-                        
+
                         tempStack.Push(removedAction);
                     }//else
                 }//while
@@ -165,7 +166,7 @@ namespace stackQueuePractice
             }
 
             Console.WriteLine("\nThe whole actions except the removed one:");
-           
+
             while (tempStack.Count > 0)
             {
                 undoStack.Push(tempStack.Pop());
@@ -194,7 +195,7 @@ namespace stackQueuePractice
             int i = 0;
             foreach (string patient in triageQueue) {
                 i++;
-                Console.WriteLine("Patient " + i + " : "+patient);
+                Console.WriteLine("Patient " + i + " : " + patient);
             }
 
             Console.WriteLine("\nThe next patient is : " + triageQueue.Peek());
@@ -202,7 +203,7 @@ namespace stackQueuePractice
             Console.WriteLine();
             for (int k = 1; k < 4; k++) {
                 patName = triageQueue.Dequeue();
-                Console.WriteLine(patName+" is done");
+                Console.WriteLine(patName + " is done");
 
             }
 
@@ -232,7 +233,7 @@ namespace stackQueuePractice
                 }//while
             }//if
 
-            Console.WriteLine("\nRemaining patients after removing : "+ targetName);
+            Console.WriteLine("\nRemaining patients after removing : " + targetName);
             foreach (string name in triageQueue)
             {
                 Console.WriteLine(name);
@@ -256,7 +257,7 @@ namespace stackQueuePractice
                 Console.WriteLine(k);
             }
 
-            Console.WriteLine("\n"+ triageQueue.Count+" patients are waiting");
+            Console.WriteLine("\n" + triageQueue.Count + " patients are waiting");
 
         }
 
@@ -278,7 +279,7 @@ namespace stackQueuePractice
 
             // Unbalanced (unclosed bracket)
             string unclosed = "{[(";
-            List<string> inputs = new List<string> { balanced,mismatched,unclosed, noBrack};
+            List<string> inputs = new List<string> { balanced, mismatched, unclosed, noBrack };
             for (int i = 0; i < inputs.Count; i++)
             {
                 if (!inputs[i].Contains("(") && !inputs[i].Contains("[") && !inputs[i].Contains("{") && !inputs[i].Contains(")") && !inputs[i].Contains("]") && !inputs[i].Contains("}")) {
@@ -392,11 +393,11 @@ namespace stackQueuePractice
 
                     // Move to back
                     spooler.Enqueue(job);
-                    
+
                 }
-                else if(pages<=50) {
+                else if (pages <= 50) {
                     tempQueue.Enqueue(job);
-                    
+
                 }
             }
             int size = spooler.Count;
@@ -407,19 +408,110 @@ namespace stackQueuePractice
             Console.WriteLine("\nJobs after reordering:");
             foreach (string item in tempQueue)
             {
-                Console.WriteLine(item);              
+                Console.WriteLine(item);
             }
         }
 
-
-        static void Main(string[] args)
+        public static void reverseSentence()
         {
+            Stack<string> wordStack = new Stack<string>();
+            string reversedWords = "";
+            string sentence1 = "C# is fun to learn";
+            string sentence2 = "Stacks make reversing words easy";
+            List<string> sentences = new List<string> { sentence1, sentence2 };
+            List<string> words = new List<string>();
+            
+            
+
+            for (int j = 0; j< sentences.Count;j++) {
+                words = sentences[j].Split(' ').ToList();
+                for (int i = 0; i < words.Count; i++)
+                {
+                    wordStack.Push(words[i]);
+
+                }
+                Console.WriteLine("the words of a sentence: ");
+                foreach (string word in wordStack) {
+                    Console.WriteLine(word);
+                }
+                for (int k = 0; wordStack.Count > 0; k++)
+                {
+                    reversedWords = reversedWords + wordStack.Pop() + " ";
+
+                }
+                Console.WriteLine("\nthe original sentence: \n" + sentences[j]);
+                Console.WriteLine("\nthe reversed sentence: \n" + reversedWords + "\n");
+
+                wordStack.Clear();
+                words.Clear();
+                reversedWords = "";
+
+            }
+        }
+
+        public static void ticketCounterSimulation() {
+            Queue<string> regularQueue = new Queue<string>();
+            Queue<string> vipQueue = new Queue<string>();
+            int totalProcessed = 0;
+
+            regularQueue.Enqueue("R101");
+            regularQueue.Enqueue("R102");
+            regularQueue.Enqueue("R103");
+            regularQueue.Enqueue("R104");
+            regularQueue.Enqueue("R105");
+
+            vipQueue.Enqueue("V201");
+            vipQueue.Enqueue("V202");
+            vipQueue.Enqueue("V203");
+
+            Console.WriteLine("Regular Queue:");
+            foreach (string ticket in regularQueue)
+            {
+                Console.WriteLine(ticket);
+            }
+
+            Console.WriteLine("\nVIP Queue:");
+            foreach (string ticket in vipQueue)
+            {
+                Console.WriteLine(ticket);
+            }
+
+
+
+            Console.WriteLine();
+            while (vipQueue.Count > 0 || regularQueue.Count > 0)
+            {
+                if (vipQueue.Count > 0)
+                {
+                    string vipTicket = vipQueue.Dequeue();
+                    Console.WriteLine("Processing VIP Ticket: " + vipTicket);
+                    totalProcessed++;
+                }
+
+                if (regularQueue.Count > 0)
+                {
+                    string regularTicket = regularQueue.Dequeue();
+                    Console.WriteLine("Processing Regular Ticket: " + regularTicket);
+                    totalProcessed++;
+                }
+            }
+
+            // Display total processed
+            Console.WriteLine("\nTotal Tickets Processed: " + totalProcessed);
+
+
+        }
+        static void Main(string[] args)
+            {
             //browserHistoryTracker();
             //hotelCheckInQueue();
             //textEditorUndoSystem();
             //hospitalEmergencyRoomTriage();
             //parenthesisValidator();
-            printSpoolerwithPriority();
+            //printSpoolerwithPriority();
+            //reverseSentence();
+            ticketCounterSimulation();
+            }
         }
-    }
+    
 }
