@@ -1,13 +1,19 @@
 ﻿using System.Net.Http.Headers;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace flightManagementSystem
 {
     internal class Program
     {
-        static List<String> passengerNames = new List<String> {"Ali","Sara","Omar","Laila","Hassan"};
+        static List<String> passengerNames = new List<String> { "Ali", "Sara", "Omar", "Laila", "Hassan" };
 
-        static List<string> ticketNumbers = new List<string>{"T001","T002","T003","T004","T005"};
+        static Queue<string> checkedInQueue = new Queue<string>();
+        static Queue<string> tempQueue = new Queue<string>();
 
+        static Stack<string> boardingStack = new Stack<string>();
+        static Stack<string> tempStack = new Stack<string>();
+
+        static List<string> ticketNumbers = new List<string> { "T001", "T002", "T003", "T004", "T005" };
         static List<string> cancelledTickets = new List<string>();
 
         //dd-MMM-yyyy
@@ -19,11 +25,24 @@ namespace flightManagementSystem
         };
         static Dictionary<string, string> bookingRecord = new Dictionary<string, string>();
         static string[] flightNumbers = new string[] { "OA101", "OA102", "OA103", "OA104", "OA105", "OA106" };
-        public static void registerNewPassenger() {
+        public static void registerNewPassenger()
+        {
+            checkedInQueue.Enqueue("Ali");
+            checkedInQueue.Enqueue("Sara");
+            checkedInQueue.Enqueue("Omar");
+            checkedInQueue.Enqueue("Laila");
+            checkedInQueue.Enqueue("Hassan");
+
+            boardingStack.Push("Ali");
+            boardingStack.Push("Sara");
+            boardingStack.Push("Omar");
+            boardingStack.Push("Laila");
+            boardingStack.Push("Hassan");
+
             bool exist = false;
             Console.Write("Enter passenger's full name: ");
             string fullName = Console.ReadLine();
-            
+
             // Validation
             if (string.IsNullOrWhiteSpace(fullName))
             {
@@ -31,21 +50,26 @@ namespace flightManagementSystem
                 return; // go back to menu
             }
             fullName = fullName.Trim();
-            for (int i = 0; i < passengerNames.Count; i++) {
-                
-                if (fullName.ToLower() == passengerNames[i].ToLower()) {
+            for (int i = 0; i < passengerNames.Count; i++)
+            {
+
+                if (fullName.ToLower() == passengerNames[i].ToLower())
+                {
                     exist = true;
                     break;
                 }
             }
-            
+
             if (exist)
             {
                 Console.WriteLine("Error: Passenger already exists.");
                 return;
             }
-            else {
+            else
+            {
                 passengerNames.Add(fullName);
+                checkedInQueue.Enqueue(fullName);
+                boardingStack.Push(fullName);
                 Console.WriteLine("Passenger added successfully.");
                 //"D3" → formats it to 3 digits with leading zeros
                 int nextNumber = ticketNumbers.Count + 1;
@@ -57,11 +81,13 @@ namespace flightManagementSystem
 
         }
 
-        public static void viewAllPassengers() {
+        public static void viewAllPassengers()
+        {
             string name;
             string ticket;
             string status;
-            if (passengerNames.Count == 0) {
+            if (passengerNames.Count == 0)
+            {
                 Console.WriteLine("No passengers registered yet.");
                 return;
             }
@@ -74,7 +100,8 @@ namespace flightManagementSystem
             );
             Console.WriteLine("-------------------------------------------------------------");
 
-            for (int i = 0; i < passengerNames.Count; i++) {
+            for (int i = 0; i < passengerNames.Count; i++)
+            {
                 name = passengerNames[i];
                 ticket = ticketNumbers[i];
 
@@ -93,11 +120,12 @@ namespace flightManagementSystem
 
             }
 
-            Console.WriteLine("The Total passengers: "+passengerNames.Count);
+            Console.WriteLine("The Total passengers: " + passengerNames.Count);
 
         }
 
-        public static void bookFlightTicket() {
+        public static void bookFlightTicket()
+        {
             Console.Write("Enter Ticket ID: ");
             string ticketID = Console.ReadLine();
             string bookingValue;
@@ -151,7 +179,8 @@ namespace flightManagementSystem
             Console.Write("Select a flight (enter number 1-6): ");
             int flightChoice;
             flightChoice = int.Parse(Console.ReadLine());
-            if (flightChoice < 1 || flightChoice > 6) {
+            if (flightChoice < 1 || flightChoice > 6)
+            {
                 Console.WriteLine("Error: Selection out of range.");
                 return;
             }
@@ -184,10 +213,11 @@ namespace flightManagementSystem
             string passName = passengerNames[ticketNumbers.IndexOf(ticketID)];
             //showing details
             Console.WriteLine("\nBooking successful!");
-            Console.WriteLine("Details: "+ ticketID+ " of "+ passName+ ": "  + bookingValue);
+            Console.WriteLine("Details: " + ticketID + " of " + passName + ": " + bookingValue);
         }
 
-        public static void viewBookingDetails() {
+        public static void viewBookingDetails()
+        {
             Console.Write("Enter Ticket ID: ");
             string ticketID = Console.ReadLine();
 
@@ -199,7 +229,8 @@ namespace flightManagementSystem
             }
             ticketID = ticketID.Trim();
 
-            if (!ticketNumbers.Contains(ticketID)) {
+            if (!ticketNumbers.Contains(ticketID))
+            {
                 Console.WriteLine("Error: Ticket ID not found.");
                 return;
             }
@@ -216,7 +247,8 @@ namespace flightManagementSystem
                 return;
             }
 
-            if (cancelledTickets.Contains(ticketID)) {
+            if (cancelledTickets.Contains(ticketID))
+            {
                 Console.WriteLine("This ticket has been cancelled");
                 return;
             }
@@ -224,17 +256,19 @@ namespace flightManagementSystem
             {
                 string value = bookingRecord[ticketID];
                 string[] valParts = value.Split('|');
-                Console.WriteLine("The flight number is: "+ valParts[0]);
+                Console.WriteLine("The flight number is: " + valParts[0]);
                 Console.WriteLine("The flight date is: " + valParts[1]);
             }
-            else {
+            else
+            {
                 Console.WriteLine("No booking found for this ticket.");
             }
 
         }
 
-        public static void UpdateBooking() {
-            string flight="";
+        public static void UpdateBooking()
+        {
+            string flight = "";
             int date = 0;
             string updatedDate = "";
             Console.Write("Enter Ticket ID: ");
@@ -261,7 +295,7 @@ namespace flightManagementSystem
             else if (!bookingRecord.ContainsKey(ticketID))
             {
                 Console.WriteLine("No booking found for this ticket.");
-                return; 
+                return;
             }
             string value = bookingRecord[ticketID];
             string[] valParts = value.Split('|');
@@ -275,14 +309,15 @@ namespace flightManagementSystem
             if (userChoice == 1)
             {
                 Console.WriteLine("\nThe flights: ");
-                foreach (string fl in flightNumbers) {
+                foreach (string fl in flightNumbers)
+                {
                     Console.WriteLine(fl);
                 }
                 Console.Write("\nenter your updated flight: ");
                 flight = Console.ReadLine();
                 flight = flight.ToUpper();
-                bookingRecord[ticketID] = flight+"|"+ valParts[1];
-                Console.Write("\nYour updated flight is: "+ bookingRecord[ticketID]);
+                bookingRecord[ticketID] = flight + "|" + valParts[1];
+                Console.Write("\nYour updated flight is: " + bookingRecord[ticketID]);
 
             }
             else if (userChoice == 2)
@@ -292,12 +327,12 @@ namespace flightManagementSystem
                 foreach (DateTime da in availableDates)
                 {
                     i++;
-                    Console.WriteLine(i+": "+da);
-                    
+                    Console.WriteLine(i + ": " + da);
+
                 }
                 Console.Write("\nEnter the number of your updated date: ");
                 date = int.Parse(Console.ReadLine());
-                updatedDate = availableDates[date-1].ToString();
+                updatedDate = availableDates[date - 1].ToString();
                 bookingRecord[ticketID] = valParts[0] + "|" + updatedDate;
                 Console.Write("\nYour updated date is: " + bookingRecord[ticketID]);
             }
@@ -333,7 +368,8 @@ namespace flightManagementSystem
                 Console.WriteLine("No updates");
                 return;
             }
-            else {
+            else
+            {
                 Console.WriteLine("invalid choice. try again");
                 Console.WriteLine("\nThe updating menue: ");
                 Console.WriteLine(" 1. Change flight only\n2. Change date only\n3. Change both\n0. Cancel update");
@@ -343,7 +379,12 @@ namespace flightManagementSystem
 
         }
 
-        public static void cancelTicket() {
+        public static void cancelTicket()
+        {
+            bool foundQueue = false;
+            bool foundStack = false;
+            string currentName = "";
+            string removedName = "";
             Console.Write("Enter Ticket ID: ");
             string ticketID = Console.ReadLine();
 
@@ -373,99 +414,158 @@ namespace flightManagementSystem
             string passName = passengerNames[ticketNumbers.IndexOf(ticketID)];
 
 
-            if (bookingRecord.ContainsKey(ticketID)) { }
-
-        }
-        static void Main(string[] args)
-        {
-            int choice;
-
-            Console.WriteLine("========================================\r\nSKY WINGS FLIGHT MANAGEMENT SYSTEM\r\n========================================");
-            Console.WriteLine("1. Register New Passenger");
-            Console.WriteLine("2. View All Passengers");
-            Console.WriteLine("3. Book a Flight Ticket");
-            Console.WriteLine("4. View Booking Details");
-            Console.WriteLine("5. Update a Booking");
-            Console.WriteLine("6. Cancel a Ticket");
-            Console.WriteLine("7. Passenger Check-In");
-            Console.WriteLine("8. Board Passengers (Boarding Stack)");
-            Console.WriteLine("9. Generate Flight Manifest");
-            Console.WriteLine("10. Manage Waitlist & Seat Assignment");
-            Console.WriteLine("0. Quit ");
-            Console.WriteLine("========================================");
-
-            Console.Write("Enter your choice: ");
-            choice = int.Parse(Console.ReadLine());
-            Console.WriteLine();
-            while (choice != 0)
+            if (bookingRecord.ContainsKey(ticketID))
             {
-                switch (choice)
+                string value = bookingRecord[ticketID];
+                bookingRecord.Remove(ticketID);
+                Console.WriteLine("The removed booking is: " + ticketID + " : " + value);
+                cancelledTickets.Add(ticketID);
+                if (checkedInQueue.Contains(passName))
                 {
-                    case 1:
-                        registerNewPassenger();
-                        break;
+                    while (checkedInQueue.Count > 0)
+                    {
+                        currentName = checkedInQueue.Dequeue();
+                        if (currentName == passName)
+                        {
+                            foundQueue = true;
+                            removedName = currentName;
+                            continue;
+                        }
+                        else tempQueue.Enqueue(currentName);
 
-                    case 2:
-                        viewAllPassengers();
-                        break;
+                    }
+                    if (foundQueue)
+                    {
+                        Console.WriteLine($"{removedName} was removed from the check-in queue.");
+                    }
+                    else Console.WriteLine("Passenger not found in the check-in queue.");
 
-                    case 3:
-                        bookFlightTicket();
-                        break;
+                    while (tempQueue.Count > 0)
+                    {
+                        checkedInQueue.Enqueue(tempQueue.Dequeue());
+                    }
+                }//if (checkedInQueue.Contains(passName))
 
-                    case 4:
-                        viewBookingDetails();
-                        break;
 
-                    case 5:
-                        UpdateBooking();
-                        break;
+                if (boardingStack.Contains(passName))
+                {
 
-                    case 6:
-                        cancelTicket();
-                        break;
+                    while (boardingStack.Count > 0)
+                    {
+                        currentName = boardingStack.Pop();
+                        if (currentName == passName)
+                        {
+                            foundStack = true;
+                            removedName = currentName;
+                            continue;
+                        }
+                        else tempStack.Push(currentName);
 
-                    case 7:
-                       
-                        break;
+                    }
+                    if (foundStack)
+                    {
+                        Console.WriteLine($"{removedName} was removed from the boarding stack.");
+                    }
+                    else Console.WriteLine("Passenger not found in the boarding stack.");
+                    
+                    while (tempStack.Count > 0)
+                    {
+                        boardingStack.Push(tempStack.Pop());
+                    }
+                }//if (boardingStack.Contains(passName))
+            }
+        }
+            static void Main(string[] args)
+            {
+                int choice;
 
-                    case 8:
-                       
-                        break;
-
-                    case 9:
-
-                        break;
-
-                    case 10:
-
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid choice");
-                        break;
-
-                }//switch
-
-                Console.WriteLine();
                 Console.WriteLine("========================================\r\nSKY WINGS FLIGHT MANAGEMENT SYSTEM\r\n========================================");
                 Console.WriteLine("1. Register New Passenger");
                 Console.WriteLine("2. View All Passengers");
-                Console.WriteLine("3. Book a Flight Ticke");
+                Console.WriteLine("3. Book a Flight Ticket");
                 Console.WriteLine("4. View Booking Details");
                 Console.WriteLine("5. Update a Booking");
                 Console.WriteLine("6. Cancel a Ticket");
                 Console.WriteLine("7. Passenger Check-In");
                 Console.WriteLine("8. Board Passengers (Boarding Stack)");
                 Console.WriteLine("9. Generate Flight Manifest");
-                Console.WriteLine("10. Manage Waitlist & Seat Assignment");
+                Console.WriteLine("10.Manage Waitlist & Seat Assignment");
                 Console.WriteLine("0. Quit ");
                 Console.WriteLine("========================================");
 
                 Console.Write("Enter your choice: ");
                 choice = int.Parse(Console.ReadLine());
                 Console.WriteLine();
-            }//while (service.ToLower() != "q")
+                while (choice != 0)
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            registerNewPassenger();
+                            break;
+
+                        case 2:
+                            viewAllPassengers();
+                            break;
+
+                        case 3:
+                            bookFlightTicket();
+                            break;
+
+                        case 4:
+                            viewBookingDetails();
+                            break;
+
+                        case 5:
+                            UpdateBooking();
+                            break;
+
+                        case 6:
+                            cancelTicket();
+                            break;
+
+                        case 7:
+
+                            break;
+
+                        case 8:
+
+                            break;
+
+                        case 9:
+
+                            break;
+
+                        case 10:
+
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice");
+                            break;
+
+                    }//switch
+
+                    Console.WriteLine();
+                    Console.WriteLine("========================================\r\nSKY WINGS FLIGHT MANAGEMENT SYSTEM\r\n========================================");
+                    Console.WriteLine("1. Register New Passenger");
+                    Console.WriteLine("2. View All Passengers");
+                    Console.WriteLine("3. Book a Flight Ticke");
+                    Console.WriteLine("4. View Booking Details");
+                    Console.WriteLine("5. Update a Booking");
+                    Console.WriteLine("6. Cancel a Ticket");
+                    Console.WriteLine("7. Passenger Check-In");
+                    Console.WriteLine("8. Board Passengers (Boarding Stack)");
+                    Console.WriteLine("9. Generate Flight Manifest");
+                    Console.WriteLine("10. Manage Waitlist & Seat Assignment");
+                    Console.WriteLine("0. Quit ");
+                    Console.WriteLine("========================================");
+
+                    Console.Write("Enter your choice: ");
+                    choice = int.Parse(Console.ReadLine());
+                    Console.WriteLine();
+                }//while (service.ToLower() != "q")
+            }
         }
     }
-}
+
