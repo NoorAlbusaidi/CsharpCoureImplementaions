@@ -24,7 +24,10 @@ namespace flightManagementSystem
         new DateTime(2026, 1, 10),
         new DateTime(2026, 1, 15)
         };
+
         static Dictionary<string, string> bookingRecord = new Dictionary<string, string>();
+        static Dictionary<string, string> passengerSeatMap = new Dictionary<string, string>();
+
         static string[] flightNumbers = new string[] { "OA101", "OA102", "OA103", "OA104", "OA105", "OA106" };
         public static void registerNewPassenger()
         {
@@ -576,7 +579,82 @@ namespace flightManagementSystem
 
 
         }
-            static void Main(string[] args)
+
+        public static void boardPassengers() {
+            Console.WriteLine("Services: ");
+            Console.WriteLine("1. Load boarding stack from check-in queue");
+            Console.WriteLine("2. Board next passenger ");
+            Console.WriteLine("3. View boarding stack");
+            Console.WriteLine("4. View boarding log");
+            Console.WriteLine("0. Back");
+
+            Console.Write("\nEnter your service number: ");
+            int service = int.Parse(Console.ReadLine());
+            int count = 0;
+            if (service == 1)
+            {
+                if (checkedInQueue.Count != 0)
+                {
+                    while (checkedInQueue.Count != 0)
+                    {
+                        count++;
+                        boardingStack.Push(checkedInQueue.Dequeue());
+                    }
+                    Console.WriteLine("Number of loaded passengers: " + count);
+
+                }
+                if (boardingStack.Count != 0 && checkedInQueue.Count == 0)
+                {
+                    Console.WriteLine("check-in queue is empty");
+                    return;
+                }
+            }//if (service==1)
+            else if (service == 2)
+            {
+                int seatCounter = 0;
+                if (boardingStack.Count > 0)
+                {
+                    string passName = boardingStack.Pop();
+                    int row = (seatCounter / 4) + 1; // 4 seats per row
+                    //(char)converts it back to a character.
+                    //'A' + 0 → 'A'=56
+                    //'A' + 1 → 'B'=66
+                    //'A' + 2 → 'C'=67
+                    //'A' + 3 -> 'D'=68
+                    //(like 65 + 1 = 66)
+                    char seatLetter = (char)('A' + (seatCounter % 4)); // A, B, C, D
+                    string seat = Convert.ToString(row) + Convert.ToString(seatLetter);
+                    // Store in dictionary
+                    passengerSeatMap[passName] = seat;
+                    seatCounter++;
+                    Console.WriteLine($"{passName} assigned seat {seat}");
+                }
+            }//else if (service == 2)
+
+            else if (service == 3)
+            {
+                Console.WriteLine("\npassengers into borading stack: ");
+                foreach (string passenger in boardingStack)
+                {
+                    Console.WriteLine(passenger);
+                }
+            }
+
+            else if (service == 4)
+            {
+                foreach (var item in passengerSeatMap)
+                {
+                    Console.WriteLine($"{item.Key} : {item.Value}");
+                }
+            }
+
+            else if (service == 0) {
+                return;
+            }
+
+
+        }
+        static void Main(string[] args)
             {
                 int choice;
             checkedInQueue.Enqueue("Ali");
@@ -641,7 +719,7 @@ namespace flightManagementSystem
                             break;
 
                         case 8:
-
+                            boardPassengers();
                             break;
 
                         case 9:
