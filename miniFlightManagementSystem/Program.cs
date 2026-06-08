@@ -9,6 +9,7 @@ namespace flightManagementSystem
 
         static Queue<string> checkedInQueue = new Queue<string>();
         static Queue<string> tempQueue = new Queue<string>();
+        static Queue<string> waitlistQueue = new Queue<string>();
 
         static Stack<string> boardingStack = new Stack<string>();
         static Stack<string> tempStack = new Stack<string>();
@@ -27,17 +28,7 @@ namespace flightManagementSystem
         static string[] flightNumbers = new string[] { "OA101", "OA102", "OA103", "OA104", "OA105", "OA106" };
         public static void registerNewPassenger()
         {
-            checkedInQueue.Enqueue("Ali");
-            checkedInQueue.Enqueue("Sara");
-            checkedInQueue.Enqueue("Omar");
-            checkedInQueue.Enqueue("Laila");
-            checkedInQueue.Enqueue("Hassan");
 
-            boardingStack.Push("Ali");
-            boardingStack.Push("Sara");
-            boardingStack.Push("Omar");
-            boardingStack.Push("Laila");
-            boardingStack.Push("Hassan");
 
             bool exist = false;
             Console.Write("Enter passenger's full name: ");
@@ -68,8 +59,6 @@ namespace flightManagementSystem
             else
             {
                 passengerNames.Add(fullName);
-                checkedInQueue.Enqueue(fullName);
-                boardingStack.Push(fullName);
                 Console.WriteLine("Passenger added successfully.");
                 //"D3" → formats it to 3 digits with leading zeros
                 int nextNumber = ticketNumbers.Count + 1;
@@ -475,11 +464,134 @@ namespace flightManagementSystem
                 }//if (boardingStack.Contains(passName))
             }
         }
+
+        public static void PassengerCheckIn() {
+            string processedName = "";
+            Console.WriteLine("Services: ");
+            Console.WriteLine("1. Check in a passenger");
+            Console.WriteLine("2. View check-in queue ");
+            Console.WriteLine("3. Process next passenger");
+            Console.WriteLine("0. Back");
+
+            Console.Write("\nEnter your service number: ");
+            int service = int.Parse(Console.ReadLine());
+
+
+            if (service == 1)
+            {
+                Console.Write("Enter Ticket ID: ");
+                string ticketID = Console.ReadLine();
+                string passName = passengerNames[ticketNumbers.IndexOf(ticketID)];
+                // Check empty input
+                if (string.IsNullOrWhiteSpace(ticketID))
+                {
+                    Console.WriteLine("Error: Ticket ID cannot be empty.");
+                    return;
+                }
+                ticketID = ticketID.Trim();
+
+                if (!ticketNumbers.Contains(ticketID))
+                {
+                    Console.WriteLine("Error: Ticket ID not found.");
+                    return;
+                }
+                else if (cancelledTickets.Contains(ticketID))
+                {
+                    Console.WriteLine("This ticket has been cancelled");
+                    return;
+                }
+                else if (!bookingRecord.ContainsKey(ticketID))
+                {
+                    Console.WriteLine("No booking found for this ticket.");
+                    return;
+                }
+                else if (bookingRecord.ContainsKey(ticketID))
+                {
+                    Console.WriteLine("booking found for this ticket.");
+                    if (!checkedInQueue.Contains(passName) && checkedInQueue.Count < 10)
+                    {
+                        checkedInQueue.Enqueue(passName);
+                        Console.WriteLine(passName + "Added into check-in queue");
+                    }
+                    else
+                    {
+                        if (checkedInQueue.Count >= 10)
+                        {
+                            waitlistQueue.Enqueue(passName);
+                            Console.WriteLine($"User {passName} has been placed on the waiting list");
+                        }
+                        else Console.WriteLine("the user: " + passName + " is already in the check-in queue");
+                    }
+                }
+            }//if (service == 1)
+
+            else if (service == 2)
+            {
+                int i = 0;
+                Console.WriteLine("\nUsers in the check-in queue: ");
+                foreach (string name in checkedInQueue)
+                {
+                    i++;
+                    Console.WriteLine($"{i}: {name}");
+                }
+
+                Console.WriteLine($"\n{waitlistQueue.Count} passengers are waiting in the waiting queue");
+            }//else if (service == 2)
+
+            else if (service == 3)
+            {
+                while (checkedInQueue.Count != 0)
+                {
+                    processedName = checkedInQueue.Dequeue();
+                    Console.WriteLine("The processed passenger is: " + processedName);
+                }
+                if (waitlistQueue.Count == 0)
+                {
+                    Console.WriteLine("No passengers in the waiting queue");
+                    return;
+                }
+                else
+                {
+                    while (waitlistQueue.Count != 0)
+                    {
+                        checkedInQueue.Enqueue(waitlistQueue.Dequeue());
+                    }
+                    while (checkedInQueue.Count != 0)
+                    {
+                        processedName = checkedInQueue.Dequeue();
+                        Console.WriteLine("The processed passenger is: " + processedName);
+                    }
+                    if (checkedInQueue.Count == 0 && waitlistQueue.Count == 0)
+                    {
+                        Console.WriteLine("No passengers to process");
+                    }
+                }
+            }//(service == 3)
+
+            else if (service == 0) {
+                return;
+            }
+
+
+
+
+        }
             static void Main(string[] args)
             {
                 int choice;
+            checkedInQueue.Enqueue("Ali");
+            checkedInQueue.Enqueue("Sara");
+            checkedInQueue.Enqueue("Omar");
+            checkedInQueue.Enqueue("Laila");
+            checkedInQueue.Enqueue("Hassan");
 
-                Console.WriteLine("========================================\r\nSKY WINGS FLIGHT MANAGEMENT SYSTEM\r\n========================================");
+            boardingStack.Push("Ali");
+            boardingStack.Push("Sara");
+            boardingStack.Push("Omar");
+            boardingStack.Push("Laila");
+            boardingStack.Push("Hassan");
+
+            Console.WriteLine("========================================\r\nSKY WINGS FLIGHT MANAGEMENT SYSTEM\r\n========================================");
                 Console.WriteLine("1. Register New Passenger");
                 Console.WriteLine("2. View All Passengers");
                 Console.WriteLine("3. Book a Flight Ticket");
@@ -525,7 +637,7 @@ namespace flightManagementSystem
                             break;
 
                         case 7:
-
+                            PassengerCheckIn();
                             break;
 
                         case 8:
